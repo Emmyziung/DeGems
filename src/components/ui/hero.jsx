@@ -1,22 +1,45 @@
-import backgroundImg from '@/img/23682.jpg'
-import { Button } from "@/components/ui/button"
-import { Gem } from 'lucide-react'
+import backgroundImg from "@/img/23682.jpg";
+import { Button } from "@/components/ui/button";
 
-const Hero =  () => {
-    return <div className='   bg-cover bg-center h-[92vh]'style={{backgroundImage: `url(${backgroundImg})`}}>
-        <div className="bg-black/60 h-full">
-        <div className=' px-4 w-full bg-gradient-to-br from-[#0b3275]/70 via-[#0b3275]/50 to-orange-500/20 h-full flex  flex-col justify-around items-center'>
-            <div>
-    
-            </div>
-            <p className='text-2xl sm:text-3xl lg:text-4xl  text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] font-semibold text-center'>Welcome to <span className='text-orange-500 drop-shadow-none'> De Gems</span> Exclusive Club <br /> <span className='text-lg font-[400] '>of Iperu Remo</span> </p>
-            <div className='flex flex-col  gap-2'id='buttons'>
-            <Button variant="outline"  size='lg'className='!bg-transparent w-[80vw] hover:text-white hover:!bg-blue-950/70 text-white !border-2 !border-white '>Join Us  </Button>
-            <Button variant="outline" size='lg' className='w-[80vw] text-[#0c2b86] hover:text-white hover:!bg-blue-950/70'>Learn More</Button>
-            </div>
-        </div>
-        </div>
-    </div>
-}
+const Hero = () => {
+  return (
+    <section
+      className="relative  bg-cover bg-center min-h-[90vh]"
+      style={{ backgroundImage: `url(${backgroundImg})` }}
+    >
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"
+        aria-hidden="true"
+      />
 
-export default Hero
+      <div className="absolute z-10 max-w-2xl lg:max-w-3xl  px-6 lg:px-12 h-full flex flex-col justify-around sm:justify-center items-start  gap-6 inset-0">
+        <div></div>
+        <div className="mx-auto font-heading drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
+        <h1 className="text-3xl sm:text-4xl lg:text-6xl font-semibold text-white mb-4">
+          Welcome to <span className="text-accent">De GEMS</span> Exclusive Club
+        </h1>
+        <p className="text-white/90 text-base mt-2 sm:text-lg lg:text-xl">of Iperu Remo</p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto  ">
+          <Button size="lg" className="!bg-blue-950/80 w-full sm:w-auto hover:text-white hover:!bg-blue-950/70 text-white !border-2 !border-white text-[14px] sm:text-base !font-bold">
+                    
+            Join Us
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="w-full sm:w-auto !bg-white/10 !text-white !border-2 !border-white hover:!bg-white/20 text-[14px] sm:text-base !font-bold"
+          >
+            Learn More
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;

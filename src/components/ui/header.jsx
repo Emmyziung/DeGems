@@ -1,15 +1,51 @@
-import { Menu } from "lucide-react"
-import logo from '@/img/IMG-20250908-WA0004.jpg'
+import { Menu } from "lucide-react";
+import logo from "@/img/IMG-20250908-WA0004.jpg";
+
 const Header = () => {
-    return <div className="flex items-center justify-between p-2 h-[8vh] bg-white sticky top-0 z-50 shadow-md  border-b border-gray-200">
-        <div className="flex items-center  gap-1">
-        <img src={logo} className=" w-[8vh] h-[8vh]" alt="" />
-        <p className="font-bold drop-shadow-xs  text-[#0c2b86]"> <span className="text-orange-500  font-semibold rounded">De</span> GEMS</p>
+  return (
+    <header className="sticky top-0 z-50 bg-white  border-b border-border shadow-sm">
+      <div className="max-w-7xl mx-auto h-[10vh] px-4 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <img
+            src={logo}
+            alt="De GEMS logo"
+            className="h-10 w-10 rounded-full object-cover"
+          />
+          <p className="font-heading text-lg font-semibold text-primary">
+            <span className="text-accent">De</span> GEMS
+          </p>
         </div>
-            <Menu className="h-6 w-6  text-gray-800"/>
-        
 
-    </div>
-}
+        <button 
+          aria-label="Open menu"
+        className="p-2 !bg-transparent md:hidden   rounded-md  hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <Menu className="h-6 w-6 text-foreground" aria-hidden="true" />
+        </button>
 
-export default Header
+        <div className="hidden md:block">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium !text-blue-950 font-body">
+            <a href="#home" className="hover:text-accent !text-primary text-base transition-colors">
+              Home</a>
+            <a href="#executives" className="hover:text-accent !text-primary text-base transition-colors">
+              Executives</a>
+            <a href="#activities" className="hover:text-accent !text-primary text-base transition-colors">
+              Activities</a>
+            <a href="#members" className="hover:text-accent !text-primary text-base transition-colors">
+              Members</a>
+            <a href="#contact" className="hover:text-accent !text-primary text-base transition-colors">
+              Contact</a>
+              <button>
+              <a href="#join" className="px-4 py-2 !bg-gradient-to-r !from-orange-400 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-sm text-base">
+                Log In
+              </a>
+              </button>
+
+          </nav>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;

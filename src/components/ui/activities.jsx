@@ -1,141 +1,105 @@
 import {
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    
-} from "@/components/ui/card"
-import { LucideGem } from "lucide-react"
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "./button";
+import { MapPin, Calendar } from "lucide-react";
+import img1 from "@/img/family-enjoying-their-quality-winter-time.jpg";
 
-import { Button } from "./button"
-import { MapPin } from "lucide-react"
-import { Calendar } from "lucide-react"
-import img1 from '@/img/family-enjoying-their-quality-winter-time.jpg'
 const Activities = () => {
-   return <div className="max-w-6xl mx-auto px-6">
+  const items = [
+    {
+      title: "Annual Charity Gala",
+      date: "February 28, 2024",
+      location: "Iperu-Remo",
+      image: img1,
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero qui et tempora doloribus incidunt non ducimus.",
+    },
+    {
+      title: "Community Outreach",
+      date: "March 12, 2024",
+      location: "Iperu-Remo",
+      image: img1,
+      description:
+        "Explicabo iste sunt aliquid non, suscipit maiores culpa illum maxime consequatur quis nobis eveniet.",
+    },
+    {
+      title: "Annual Dinner Night",
+      date: "April 5, 2024",
+      location: "Iperu-Remo",
+      image: img1,
+      description:
+        "Et obcaecati aut sequi perspiciatis. Vero qui et tempora doloribus incidunt non ducimus.",
+    },
+  ];
 
-     <h2 className="text-center text-3xl my-4  text-[#01185e] font-semibold">Recent Activities</h2>
-   
+  return (
+    <section className="py-16 md:py-20">
+      <div className="max-w-7xl mx-auto px-6">
+        <h2 className="text-center text-3xl md:text-4xl font-semibold tracking-tight text-primary">
+          Recent Activities
+        </h2>
 
-         <p className="text-gray-900 text-sm  text-wrap mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo iste sunt aliquid non, suscipit maiores culpa illum maxime consequatur quis nobis eveniet ipsa aspernatur corporis, et obcaecati aut sequi perspiciatis.</p>
-         <div className="grid w-fit mx-auto max-sm:grid-cols-1 gap-5  grid-cols-3">
-    <Card className='!py-0 !gap-0 overflow-hidden  w-full aspect-[4/5]'>
-    <div className="relative w-full h-2/5 min-h-2/5 overflow-hidden">
-    <div className=" absolute w-full h-full  overflow-y-hidden ">
-            <img src={img1} className="w-full object-cover h-full"  alt="" />
-    
+        <p className="text-muted-foreground text-sm text-center mt-3 max-w-2xl mx-auto">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo iste sunt aliquid non,
+          suscipit maiores culpa illum maxime consequatur quis nobis eveniet ipsa aspernatur.
+        </p>
+
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map((item, idx) => (
+            <Card key={idx} className="overflow-hidden">
+              <div className="relative w-full h-40">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/20 to-transparent"
+                  aria-hidden="true"
+                ></div>
+
+                <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-accent text-accent-foreground text-xs font-medium px-2 py-1 rounded-md">
+                  <Calendar className="size-3" aria-hidden="true" /> {item.date}
+                </span>
+              </div>
+
+              <div className="flex flex-col">
+                <CardHeader className="mt-3 mb-1">
+                  <CardTitle className="!my-0">{item.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription>{item.description}</CardDescription>
+                </CardContent>
+
+                <CardFooter className="mt-2 flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <MapPin className="size-4" aria-hidden="true" />
+                    <span className="text-sm">{item.location}</span>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                  >
+                    View Photos
+                  </Button>
+                </CardFooter>
+              </div>
+            </Card>
+          ))}
         </div>
-        <div className="absolute w-full bg-[#0b3275]/10 h-full"></div>
+        < Button className="mt-10 !mx-auto flex !bg-gradient-to-r !from-orange-400 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-sm py-5 font-semibold  ">
+          View All Activities
+        </Button>
+      </div>
+    </section>
+  );
+};
 
-
-        <div className="absolute w-full bg-gradient-to-t from-[#0b3275]/85 via-[#0b3275]/20 to transparent h-full"></div>
-        <p className="absolute flex text-white text-lg items-center  bottom-8 left-[5%]"> <Calendar className="text-white "/> &nbsp; February 28, 2024</p>
-    </div >
-    <div className="h-3/5 max-h-3/5 w-full max-w-full min-h-3/5 flex flex-col justify-around">
-           <CardHeader className='mt-3 mb-1'>
-            <CardTitle className='!my-0' >Annual Charity Gala</CardTitle>
-        </CardHeader>
-        <CardContent >
-            <CardDescription >Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero qui et tempora doloribus incidunt non ducimus. </CardDescription>
-           
-        </CardContent>
-      
-         
-        <CardFooter className='mt-3 flex flex-col items-start'>
-                  <CardContent className='px-0'>
-             <CardDescription className='flex my-3'><MapPin/> &nbsp;Iperu-Remo</CardDescription>
-        </CardContent>
-            <div className="flex items-center justify-between w-full">
-             <Button variant="outline"  size='lg'className='!bg-transparent hover:text-white hover:!bg-blue-950/70 text-[#0c2b86] !border-2 !border-[#0c2b86] '> View Photos</Button>
-             <CardDescription> <LucideGem/></CardDescription>
-            
-        </div>
-        </CardFooter>
-       
-    </div>
-     
-    </Card>
-    <Card className='!py-0 !gap-0 overflow-hidden  w-full aspect-[4/5]'>
-    <div className="relative w-full h-2/5 min-h-2/5 overflow-hidden">
-    <div className=" absolute w-full h-full  overflow-y-hidden ">
-            <img src={img1} className="w-full object-cover h-full"  alt="" />
-    
-        </div>
-        <div className="absolute w-full bg-[#0b3275]/10 h-full"></div>
-
-
-        <div className="absolute w-full bg-gradient-to-t from-[#0b3275]/85 via-[#0b3275]/20 to transparent h-full"></div>
-        <p className="absolute flex text-white text-lg items-center  bottom-8 left-[5%]"> <Calendar className="text-white "/> &nbsp; February 28, 2024</p>
-    </div >
-    <div className="h-3/5 max-h-3/5 w-full max-w-full min-h-3/5 flex flex-col justify-around">
-           <CardHeader className='mt-3 mb-1'>
-            <CardTitle className='!my-0' >Annual Charity Gala</CardTitle>
-        </CardHeader>
-        <CardContent >
-            <CardDescription >Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero qui et tempora doloribus incidunt non ducimus. </CardDescription>
-           
-        </CardContent>
-      
-         
-        <CardFooter className='mt-3 flex flex-col items-start'>
-                  <CardContent className='px-0'>
-             <CardDescription className='flex my-3'><MapPin/> &nbsp;Iperu-Remo</CardDescription>
-        </CardContent>
-                  <div className="flex items-center justify-between w-full">
-             <Button variant="outline"  size='lg'className='!bg-transparent hover:text-white hover:!bg-blue-950/70 text-[#0c2b86] !border-2 !border-[#0c2b86] '> View Photos</Button>
-             <CardDescription> <LucideGem/></CardDescription>
-            
-        </div>
-        </CardFooter>
-       
-    </div>
-     
-    </Card>
-    <Card className='!py-0 !gap-0 overflow-hidden  w-full aspect-[4/5]'>
-    <div className="relative w-full h-2/5 min-h-2/5 overflow-hidden">
-    <div className=" absolute w-full h-full  overflow-y-hidden ">
-            <img src={img1} className="w-full object-cover h-full"  alt="" />
-    
-        </div>
-        <div className="absolute w-full bg-[#0b3275]/10 h-full"></div>
-
-
-        <div className="absolute w-full bg-gradient-to-t from-[#0b3275]/85 via-[#0b3275]/20 to transparent h-full"></div>
-        <p className="absolute flex text-white text-lg items-center  bottom-8 left-[5%]"> <Calendar className="text-white "/> &nbsp; February 28, 2024</p>
-    </div >
-    <div className="h-3/5 max-h-3/5 w-full max-w-full min-h-3/5 flex flex-col justify-around">
-           <CardHeader className='mt-3 mb-1'>
-            <CardTitle className='!my-0' >Annual Charity Gala</CardTitle>
-        </CardHeader>
-        <CardContent >
-            <CardDescription >Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero qui et tempora doloribus incidunt non ducimus. </CardDescription>
-           
-        </CardContent>
-      
-         
-        <CardFooter className='mt-3 flex flex-col items-start'>
-                  <CardContent className='px-0'>
-             <CardDescription className='flex my-3'><MapPin/> &nbsp;Iperu-Remo</CardDescription>
-        </CardContent>
-        <div className="flex items-center justify-between w-full">
-             <Button variant="outline"  size='lg'className='!bg-transparent hover:text-white hover:!bg-blue-950/70 text-[#0c2b86] !border-2 !border-[#0c2b86] '> View Photos</Button>
-             <CardDescription> <LucideGem/></CardDescription>
-            
-        </div>
-                
-        </CardFooter>
-       
-    </div>
-     
-    </Card>
-   
-    
-
-    </div>
-   </div> 
-}
-
-export default Activities
+export default Activities;

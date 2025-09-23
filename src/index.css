@@ -2,9 +2,36 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+@import "tailwindcss";
+
+@theme {
+  /* define your custom fonts */
+  --font-body: "Nunito", sans-serif;
+  --font-heading: "Poppins", sans-serif;
+}
+
+/* Then use those as utilities */
+.font-body {
+  font-family: var(--font-body);
+}
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+/* You can also apply defaults globally via @layer base */
+@layer base {
+  body {
+    @apply font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
+  }
+}
+
+
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
 
@@ -17,37 +44,50 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Brand tokens - Light theme */
+  --background: #ffffff;
+  --foreground: #0f172a; /* slate-900 */
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+
+  --primary: #0c2b86; /* deep navy */
+  --primary-foreground: #ffffff;
+
+  --secondary: #f8fafc; /* slate-50 */
+  --secondary-foreground: #0f172a;
+
+  --muted: #f8fafc; /* slate-50 */
+  --muted-foreground: #475569; /* slate-600 */
+
+  --accent: #f97316; /* orange-500 */
+  --accent-foreground: #ffffff;
+
+  --destructive: #ef4444; /* red-500 */
+
+  --border: #e5e7eb; /* gray-200 */
+  --input: #e5e7eb;
+  --ring: #93c5fd; /* sky-300 */
+
+  /* Optional chart palette aligned with brand */
+  --chart-1: #1e3a8a; /* indigo-800 */
+  --chart-2: #fb923c; /* orange-400 */
+  --chart-3: #0ea5e9; /* sky-500 */
+  --chart-4: #16a34a; /* green-600 */
+  --chart-5: #f43f5e; /* rose-500 */
+
+  /* Sidebar palette (if used) */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #0c2b86;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9; /* slate-100 */
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #93c5fd;
 }
 
 a {
@@ -61,24 +101,7 @@ a:hover {
 
 
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
+/* Removed generic button styles to let component tokens control appearance */
 
 @media (prefers-color-scheme: light) {
   :root {
