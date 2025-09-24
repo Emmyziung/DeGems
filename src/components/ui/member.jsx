@@ -21,8 +21,9 @@ const Member = () => {
         </p>
         <div className="mt-6 flex justify-center">
           <Button
-            variant="outline"
-            className="bg-white/10 text-white border-white hover:bg-white/20"
+             variant="outline"
+            size="lg"
+            className="w-full sm:w-auto !bg-white/10 !text-white !border-2 !border-white hover:!bg-white/20 text-[14px] sm:text-base !font-bold"
           >
             Join Now
           </Button>

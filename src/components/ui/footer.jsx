@@ -1,38 +1,63 @@
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter,  } from "lucide-react";
+import { Mail } from "lucide-react";
 
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-primary text-primary-foreground border-t border-border">
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <span className="font-bold">
-              <span className="text-accent">De</span> GEMS
-            </span>
-          </div>
-          <nav className="flex items-center gap-6 text-sm">
-            <a href="#" className="hover:text-accent transition-colors">About</a>
-            <a href="#" className="hover:text-accent transition-colors">Activities</a>
-            <a href="#" className="hover:text-accent transition-colors">Join</a>
-          </nav>
-          <div className="flex items-center gap-3">
-            <a href="#" aria-label="Facebook" className="hover:text-accent transition-colors">
-              <Facebook className="h-5 w-5" aria-hidden="true" />
-            </a>
-            <a href="#" aria-label="Instagram" className="hover:text-accent transition-colors">
-              <Instagram className="h-5 w-5" aria-hidden="true" />
-            </a>
-            <a href="#" aria-label="Twitter" className="hover:text-accent transition-colors">
-              <Twitter className="h-5 w-5" aria-hidden="true" />
-            </a>
-          </div>
+   <footer className="bg-gradient-to-r from-primary via-primary to-primary/95 text-primary-foreground ">
+  <div className="max-w-7xl  border-t border-border  mx-auto  py-10">
+    <div className="px-6">
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+      
+      {/* Column 1 - Brand */}
+      <div>
+        <div className="font-semibold font-heading text-lg">
+          <span className="text-accent">De</span> GEMS
         </div>
-        <div className="mt-8 text-center text-xs/relaxed text-primary-foreground/80">
-          © {year} De GEMS. All rights reserved.
+        <p className="mt-2 text-sm text-primary-foreground/80">
+          A social club for growth, networking, and shared experiences.
+        </p>
+      </div>
+
+      {/* Column 2 - Quick Links */}
+      <div>
+        <h4 className="font-semibold mb-3">Quick Links</h4>
+        <ul className="space-y-2 text-sm">
+          <li><a href="#about" className="hover:text-accent transition-colors">About Us</a></li>
+          <li><a href="#events" className="hover:text-accent transition-colors">Events</a></li>
+          <li><a href="#join" className="hover:text-accent transition-colors">Join Us</a></li>
+          <li><a href="#contact" className="hover:text-accent transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      {/* Column 3 - Contact & Socials */}
+      <div>
+        <h4 className="font-semibold mb-3">Contact</h4>
+        <p className="text-sm flex gap-2 "><Mail className="h-5 transition-colors text-primary-foreground/50 hover:text-accent w-5" aria-hidden="true"/> <span className="text-primary-foreground/80">official@degems.org</span></p>
+        
+        <div className="mt-4 flex gap-4">
+          <a href="#" aria-label="Facebook" className="hover:text-accent transition-colors">
+            <Facebook className="h-5 w-5 tex" aria-hidden="true" />
+          </a>
+          <a href="#" aria-label="Instagram" className="hover:text-accent transition-colors">
+            <Instagram className="h-5 w-5" aria-hidden="true" />
+          </a>
+          <a href="#" aria-label="Twitter" className="hover:text-accent transition-colors">
+            <Twitter className="h-5 w-5" aria-hidden="true" />
+          </a>
         </div>
       </div>
-    </footer>
+
+    </div>
+     </div>
+    {/* Bottom line */}
+    <div className="mt-10 text-center text-xs text-primary-foreground/60  border-t border-border pt-4">
+      © {year} De GEMS. All rights reserved.
+    </div>
+   
+  </div>
+</footer>
+
   );
 };
 

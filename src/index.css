@@ -67,7 +67,9 @@
   --accent-foreground: #ffffff;
 
   --destructive: #ef4444; /* red-500 */
-
+  --borderRadius: 0.25rem;
+  --letterSpacing: 1px;
+  --transition: 0.3s ease-in-out all;
   --border: #e5e7eb; /* gray-200 */
   --input: #e5e7eb;
   --ring: #93c5fd; /* sky-300 */
@@ -89,7 +91,26 @@
   --sidebar-border: #e5e7eb;
   --sidebar-ring: #93c5fd;
 }
-
+.modal-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.85);
+  display:grid;
+  place-items:center;
+  transition:var(--transition);
+  z-index:100;
+}
+.modal-container{
+  width:80vw;
+  max-width:800px;
+  height:80vh;
+  overflow-y:scroll;
+ 
+  border-radius:var(--borderRadius);
+}
 a {
   font-weight: 500;
   color: #646cff;
@@ -99,7 +120,123 @@ a:hover {
   color: #535bf2;
 }
 
-
+ 
+        #mobileMenu {
+            display: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            visibility: hidden;
+        }
+        #mobileMenu.show {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-menu-slide {
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+        .mobile-menu-slide.show {
+            transform: translateX(0);
+        }
+        
+        /* Enhanced backdrop animation */
+        #mobileMenu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(212, 212, 212, 0.3);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        #mobileMenu.show::before {
+            opacity: 1;
+        }
+        
+        /* Smooth entrance animation for menu content */
+        .mobile-menu-slide > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition-delay: 0.1s;
+        }
+        
+        .mobile-menu-slide.show > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered animation for nav links */
+        .mobile-menu-slide nav a {
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu-slide.show nav a:nth-child(1) { transition-delay: 0.15s; }
+        .mobile-menu-slide.show nav a:nth-child(2) { transition-delay: 0.2s; }
+        .mobile-menu-slide.show nav a:nth-child(3) { transition-delay: 0.25s; }
+        .mobile-menu-slide.show nav a:nth-child(4) { transition-delay: 0.3s; }
+        .mobile-menu-slide.show nav a:nth-child(5) { transition-delay: 0.35s; }
+        .mobile-menu-slide.show nav a:nth-child(6) { transition-delay: 0.4s; }
+        
+        .mobile-menu-slide.show nav a {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Enhanced hover effects */
+        .mobile-menu-slide nav a {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mobile-menu-slide nav a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(19, 17, 163, 0.1), transparent);
+            transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .mobile-menu-slide nav a:hover::before {
+            left: 100%;
+        }
+        
+        /* Close button animation */
+        #closeMenu {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1);
+        }
+        
+        #closeMenu:hover {
+            transform: scale(1.1) rotate(90deg);
+        }
+        
+        /* Smooth exit animation */
+        #mobileMenu.closing {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        #mobileMenu.closing .mobile-menu-slide {
+            transform: translateX(-100%);
+        }
+        
+        /* Performance optimizations */
+        .mobile-menu-slide {
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
 
 /* Removed generic button styles to let component tokens control appearance */
 

@@ -39,20 +39,17 @@ const Activities = () => {
   ];
 
   return (
-    <section className="py-16 md:py-20">
+    <section className=" pb-10 md:pb-12" >
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-center text-3xl md:text-4xl font-semibold tracking-tight text-primary">
+        <h2 className="text-center text-2xl md:text-3xl font-semibold tracking-tight text-primary">
           Recent Activities
         </h2>
 
-        <p className="text-muted-foreground text-sm text-center mt-3 max-w-2xl mx-auto">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo iste sunt aliquid non,
-          suscipit maiores culpa illum maxime consequatur quis nobis eveniet ipsa aspernatur.
-        </p>
+   
 
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {items.map((item, idx) => (
-            <Card key={idx} className="overflow-hidden">
+            <Card key={idx} className="!pb-4 overflow-hidden rounded-lg">
               <div className="relative w-full h-40">
                 <img
                   src={item.image}
@@ -64,8 +61,8 @@ const Activities = () => {
                   aria-hidden="true"
                 ></div>
 
-                <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-accent text-accent-foreground text-xs font-medium px-2 py-1 rounded-md">
-                  <Calendar className="size-3" aria-hidden="true" /> {item.date}
+                <span className="absolute bottom-3 left-3 flex items-center gap-1 text-accent-foreground text-sm font-medium px-2 py-1 rounded-md">
+                  <Calendar className="size-4" aria-hidden="true" /> &nbsp;{item.date}
                 </span>
               </div>
 
@@ -85,7 +82,7 @@ const Activities = () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    className="border-primary text-primary hover:bg-primary hover:text-primary-foreground !rounded-sm" style={{borderRadius: '4px'}}
                   >
                     View Photos
                   </Button>
@@ -94,7 +91,7 @@ const Activities = () => {
             </Card>
           ))}
         </div>
-        < Button className="mt-10 !mx-auto flex !bg-gradient-to-r !from-orange-400 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-sm py-5 font-semibold  ">
+        < Button className="mt-10 !mx-auto flex !bg-gradient-to-r !from-orange-400 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors text-base shadow-sm py-5 font-semibold  ">
           View All Activities
         </Button>
       </div>

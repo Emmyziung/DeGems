@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <section
       className="relative  bg-cover bg-center min-h-[90vh]"
-      style={{ backgroundImage: `url(${backgroundImg})` }}
+      style={{ backgroundImage: `url(${backgroundImg})`}}
     >
       <div
         className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-transparent"
@@ -20,7 +20,7 @@ const Hero = () => {
         <div></div>
         <div className="mx-auto font-heading drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-semibold text-white mb-4">
-          Welcome to <span className="text-accent">De GEMS</span> Exclusive Club
+          Welcome to <span className="text-accent !drop-shadow-none">De GEMS</span> Exclusive Club
         </h1>
         <p className="text-white/90 text-base mt-2 sm:text-lg lg:text-xl">of Iperu Remo</p>
         </div>
