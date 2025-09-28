@@ -57,7 +57,7 @@ const Activities = () => {
                   className="w-full h-full object-cover"
                 />
                 <div
-                  className="absolute inset-0 bg-gradient-to-t from-primary/70 via-primary/20 to-transparent"
+                  className="absolute inset-0 bg-[#0b1742]/30"
                   aria-hidden="true"
                 ></div>
 

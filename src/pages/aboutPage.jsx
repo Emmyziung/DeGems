@@ -1,7 +1,11 @@
 import About from "@/components/ui/about";
+
 const AboutPage = () => {
   return (
+    <div>
     <About />
+   
+    </div>
   );
 };
 

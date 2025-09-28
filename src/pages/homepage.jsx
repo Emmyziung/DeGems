@@ -3,7 +3,7 @@ import Hero from "@/components/ui/hero";
 import Executives from "@/components/ui/executives";
 import Activities from "@/components/ui/activities";
 import Member from "@/components/ui/member";
-import Footer from "@/components/ui/footer"
+
 import { useGlobalContext } from "@/context/pageContext";
 import  Modal  from "@/components/ui/modal";
 const Homepage = () => {
@@ -16,7 +16,7 @@ const Homepage = () => {
       <Activities />
       {showMembers && <Modal />}
       <Member />
-      <Footer />
+     
     </div>
   );
 };

@@ -7,6 +7,10 @@ import { createContext, useContext } from "react";
 export const PageContext = createContext();
 
 const PageProvider = ({ children }) => {
+   const tabs = [
+    { id: "activities", label: "Activities" },
+    { id: "gallery", label: "Photo Gallery" },
+  ];
       const people = [
     { name: "John Doe", role: "President", initials: "JD", image: img1 },
     { name: "Jane Smith", role: "Vice President", initials: "JS", image: img2 },
@@ -21,8 +25,9 @@ const PageProvider = ({ children }) => {
   const menuDisplay = () => {
     setShowMenu(!showMenu);
   }
- /*  useEffect(() => {
+/*   useEffect(() => {
     return () => {
+      if (!showMenu) {
      mobileMenu.classList.add('show');
         const slideElement = mobileMenu.querySelector('.mobile-menu-slide');
         if (slideElement) {
@@ -32,12 +37,13 @@ const PageProvider = ({ children }) => {
             }, 10);
         }
         document.body.style.overflow = ['hidden'];
+      }
     }
-  }, showMenu) */
-  
+  }, [showMenu])
+   */
 
     return (
-        <PageContext.Provider value={{ memberDisplay,people, menuDisplay, showMembers }}>
+        <PageContext.Provider value={{ memberDisplay,people, tabs, menuDisplay, showMembers }}>
             {children}
         </PageContext.Provider>
     );
