@@ -1,7 +1,9 @@
 import backgroundImg from "@/img/23682.jpg";
 import { Button } from "@/components/ui/button";
-
+import { Link } from "react-router-dom";
+import { useAuthContext } from "@/context/AuthContext";
 const Hero = () => {
+  const {currentUser} =useAuthContext()
   return (
     <section
       className="relative  bg-cover bg-center min-h-[90vh]"
@@ -25,17 +27,28 @@ const Hero = () => {
         <p className="text-white/90 text-base mt-2 sm:text-lg lg:text-xl">of Iperu Remo</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto  ">
+
+          {currentUser ? (<Link  to="/member-dashboard">
           <Button size="lg" className="!bg-blue-950/80 w-full sm:w-auto hover:text-white hover:!bg-blue-950/70 text-white !border-2 !border-white text-[14px] sm:text-base !font-bold">
                     
-            Join Us
+           Dashboard
           </Button>
+          </Link> ) : (<Link  to="/signin">
+          <Button size="lg" className="!bg-blue-950/80 w-full sm:w-auto hover:text-white hover:!bg-blue-950/70 text-white !border-2 !border-white text-[14px] sm:text-base !font-bold">
+                    
+           Sign In
+          </Button>
+          </Link> ) }
+          
+          <Link to="/About"  >
           <Button
             variant="outline"
             size="lg"
             className="w-full sm:w-auto !bg-white/10 !text-white !border-2 !border-white hover:!bg-white/20 text-[14px] sm:text-base !font-bold"
           >
-            Learn More
+           Learn More 
           </Button>
+          </Link>
         </div>
       </div>
     </section>

@@ -3,61 +3,14 @@ import Breadcrumb from "@/components/ui/Breadcrumb";
 import img1 from "@/img/family-enjoying-their-quality-winter-time.jpg";
 import img2 from "@/img/23682.jpg";
 import img3 from "@/img/8990534.png";
+import { useDatabaseContext } from "@/context/databaseContext";
 
-const activities = [
-  {
-    id: 1,
-    title: "Annual Charity Gala",
-    date: "February 28, 2024",
-    location: "Iperu-Remo",
-    image: img1,
-    description: "Join us for an elegant evening of dining, entertainment, and giving back to the community. This year's gala features live music, auctions, and special performances. The event will include a silent auction with items donated by local businesses, a live band, and speeches from community leaders. All proceeds go directly to supporting local charities and initiatives.",
-  },
-  {
-    id: 2,
-    title: "Community-Outreach",
-    date: "March 12, 2024",
-    location: "Iperu-Remo",
-    image: img2,
-    description: "Our monthly community outreach program provides essential services and support to local families in need. Volunteers welcome for food distribution and educational activities. This event focuses on providing meals, educational resources, and recreational activities for children and families in our community.",
-  },
-  {
-    id: 3,
-    title: "Annual Dinner Night",
-    date: "April 5, 2024",
-    location: "Iperu-Remo",
-    image: img3,
-    description: "A formal dinner event celebrating our club's achievements and honoring outstanding members. Includes keynote speeches and networking opportunities. This prestigious event recognizes the contributions of our members and provides a platform for networking and celebrating our shared successes.",
-  },
-  {
-    id: 4,
-    title: "Youth Mentorship Program",
-    date: "May 15, 2024",
-    location: "Iperu-Remo",
-    image: img1,
-    description: "Empowering the next generation through mentorship and skill-building workshops. Connect with young professionals and share your expertise. This program pairs experienced professionals with youth to provide guidance, career advice, and practical skills development.",
-  },
-  {
-    id: 5,
-    title: "Cultural Festival",
-    date: "June 20, 2024",
-    location: "Iperu-Remo",
-    image: img2,
-    description: "Celebrate diversity with traditional music, dance, food, and art from various cultures. A vibrant showcase of our community's rich heritage. Experience authentic cultural performances, traditional cuisine, and art exhibitions from diverse backgrounds.",
-  },
-  {
-    id: 6,
-    title: "Business Networking Event",
-    date: "July 10, 2024",
-    location: "Iperu-Remo",
-    image: img3,
-    description: "Connect with local entrepreneurs and business leaders. Share ideas, form partnerships, and discover new opportunities in our growing community. This event provides valuable networking opportunities and insights into local business trends.",
-  },
-];
 
 const ActivityDetail = () => {
+  const {activities} = useDatabaseContext()
   const { id } = useParams();
-  const activity = activities.find((a) => a.id === parseInt(id));
+  
+  const activity = activities.find((a) => a.id === id);
 
   if (!activity) {
     return <div className="min-h-screen flex items-center justify-center">Activity not found</div>;
@@ -69,11 +22,16 @@ const ActivityDetail = () => {
     { label: activity.title },
   ];
 
+const imageUrls = activity.img|| [];    
+           // get their values
+                  // remove undefined or empty ones
+
+
   return (
     <div className="min-h-screen bg-background">
       <div className="relative h-64 md:h-80">
         <img
-          src={activity.image}
+          src={activity.img[0]}
           alt={activity.title}
           className="w-full h-full object-cover"
         />
@@ -90,9 +48,21 @@ const ActivityDetail = () => {
             <p className="text-base leading-relaxed mb-6">{activity.description}</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <img src={img1} alt="Activity photo" className="w-full rounded-lg shadow-sm" />
-              <img src={img2} alt="Activity photo" className="w-full rounded-lg shadow-sm" />
-              <img src={img3} alt="Activity photo" className="w-full rounded-lg shadow-sm" />
+              {imageUrls.length > 0 ? (
+    imageUrls.map((url, index) => (
+      <img
+        key={index}
+        src={url}
+        alt={`Activity photo ${index + 1}`}
+        className="w-full h-64 object-cover rounded-lg shadow-sm"
+      />
+    ))
+  ) : (
+    <p className="text-muted-foreground text-center py-6">
+      No photos uploaded yet.
+    </p>
+  )}
+              
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 import { IoDiamond } from "react-icons/io5";
 import { Button } from "./button";
-
+import { Link } from "react-router-dom";
 const Member = () => {
   return (
     <section className="relative mt-6 overflow-hidden bg-gradient-to-br from-primary via-primary to-primary/95">
@@ -20,13 +20,15 @@ const Member = () => {
           unforgettable experiences!
         </p>
         <div className="mt-6 flex justify-center">
+          <Link to="/members">
           <Button
              variant="outline"
             size="lg"
-            className="w-full sm:w-auto !bg-white/10 !text-white !border-2 !border-white hover:!bg-white/20 text-[14px] sm:text-base !font-bold"
+            className="w-auto !bg-white/10 !text-white !border-2 !border-white hover:!bg-white/20 text-[14px] sm:text-base !font-bold"
           >
             Join Now
           </Button>
+          </Link>
         </div>
       </div>
     </section>

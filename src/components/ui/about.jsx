@@ -8,7 +8,7 @@ const About = () => {
     
 
      
-      <section className="pt-8 pb-16 md:pt-10 md:pb-20 bg-muted/50">
+      <section className="pt-8 pb-16 md:pt-10 md:pb-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="flex w-full max-w-3xl md:max-w-4xl mx-auto text-3xl md:text-4xl font-semibold  tracking-tight text-primary ">
             Our History

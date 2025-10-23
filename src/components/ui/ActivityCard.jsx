@@ -8,7 +8,7 @@ const ActivityCard = ({ activity }) => {
     <Card className="!pb-4 overflow-hidden rounded-lg">
       <div className="relative w-full h-40">
         <img
-          src={activity.image}
+          src={activity.img[0]}
           alt={activity.title}
           className="w-full h-full object-cover"
         />

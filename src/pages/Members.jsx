@@ -9,8 +9,8 @@ const Members = () => {
     alert("Application submitted!");
   };
 
-  const handleSignIn = () => {
-    navigate("/member-dashboard");
+  const referSignIn = () => {
+    navigate("/signin");
   };
 
   return (
@@ -61,7 +61,7 @@ const Members = () => {
               <Button type="submit" className="px-4 py-2 !bg-gradient-to-r !from-orange-500 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-xs text-base">Submit Application</Button>
             </form>
             <div className="mt-4">
-              <p>Already a Member? &nbsp;<span  className="cursor-pointer text-primary text-decoration-line" onClick={handleSignIn}>Sign In</span></p>
+              <p>Already a Member? &nbsp;<span  className="cursor-pointer text-primary text-decoration-line" onClick={referSignIn}>Sign In</span></p>
             </div>
           </div>
 

@@ -10,67 +10,30 @@ import img5 from "@/img/close-up-smiley-man-with-glasses.jpg";
 import img6 from "@/img/portrait-smiley-black-man.jpg";
 import img7 from "@/img/three-african-american-happy-succesfull-mans-suit-rich-black-business-mans.jpg";
 import { useGlobalContext } from "@/context/pageContext";
-const activities = [
-  {
-    id: 1,
-    title: "Annual Charity Gala",
-    date: "February 28, 2024",
-    location: "Iperu-Remo",
-    image: img1,
-    description: "Join us for an elegant evening of dining, entertainment, and giving back to the community. This year's gala features live music, auctions, and special performances.",
-  },
-  {
-    id: 2,
-    title: "Community Outreach",
-    date: "March 12, 2024",
-    location: "Iperu-Remo",
-    image: img2,
-    description: "Our monthly community outreach program provides essential services and support to local families in need. Volunteers welcome for food distribution and educational activities.",
-  },
-  {
-    id: 3,
-    title: "Annual Dinner Night",
-    date: "April 5, 2024",
-    location: "Iperu-Remo",
-    image: img3,
-    description: "A formal dinner event celebrating our club's achievements and honoring outstanding members. Includes keynote speeches and networking opportunities.",
-  },
-  {
-    id: 4,
-    title: "Youth Mentorship Program",
-    date: "May 15, 2024",
-    location: "Iperu-Remo",
-    image: img4,
-    description: "Empowering the next generation through mentorship and skill-building workshops. Connect with young professionals and share your expertise.",
-  },
-  {
-    id: 5,
-    title: "Cultural Festival",
-    date: "June 20, 2024",
-    location: "Iperu-Remo",
-    image: img5,
-    description: "Celebrate diversity with traditional music, dance, food, and art from various cultures. A vibrant showcase of our community's rich heritage.",
-  },
-  {
-    id: 6,
-    title: "Business Networking Event",
-    date: "July 10, 2024",
-    location: "Iperu-Remo",
-    image: img6,
-    description: "Connect with local entrepreneurs and business leaders. Share ideas, form partnerships, and discover new opportunities in our growing community.",
-  },
-];
+import { useDatabaseContext } from "@/context/databaseContext";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
-const photos = [img1, img2, img3, img4, img5, img6, img7];
+
+
 
 const Activities = () => {
+
    const { tabs } = useGlobalContext();
-   console.log(tabs); 
-   console.log(1);
+
+     const {activities, photos} = useDatabaseContext()
+ 
   const [activeTab, setActiveTab] = useState("activities");
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [loadedImages, setLoadedImages] = useState({});
+
+  // Generate 10 varied skeleton heights for visual interest
+  const skeletonHeights = [
+    'h-48', 'h-64', 'h-52', 'h-72', 'h-56',
+    'h-60', 'h-44', 'h-68', 'h-50', 'h-58'
+  ];
   const handleTabChange = (tab) =>{
     setActiveTab(tab);
    
@@ -92,6 +55,15 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const changePhotoIndex = (index) => setCurrentPhotoIndex(index);
 
+  const handleImageLoad = (index) => {
+    setLoadedImages(prev => ({ ...prev, [index]: true }));
+  };
+
+  const handleImageError = (index) => {
+    // Keep skeleton visible on error for network independence
+    setLoadedImages(prev => ({ ...prev, [index]: false }));
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-6 py-8">
@@ -108,16 +80,30 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
         )}
 
         {activeTab === "gallery" && (
-          <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
-            {photos.map((photo, index) => (
-              <img
-                key={index}
-                src={photo}
-                alt={`Gallery photo ${index + 1}`}
-                className="w-full rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => openLightbox(index)}
-              />
-            ))}
+          <div className="columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+            {photos.length > 0 ? (
+              photos.map((photo, index) => (
+                <div key={index} className="relative">
+                  {!loadedImages[index] && (
+                    <div className={`absolute inset-0 z-10 rounded-lg shadow-sm bg-gray-300 animate-pulse ${skeletonHeights[index % skeletonHeights.length]}`} />
+                  )}
+                  <LazyLoadImage
+                    effect="blur"
+                    src={photo.url}
+                    alt={`Gallery photo ${index + 1}`}
+                    className="w-full rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                    onClick={() => openLightbox(index)}
+                    onLoad={() => handleImageLoad(index)}
+                    onError={() => handleImageError(index)}
+                  />
+                </div>
+              ))
+            ) : (
+              // Show 10 skeleton placeholders when no photos are loaded
+              Array.from({ length: 10 }, (_, index) => (
+                <div key={`skeleton-${index}`} className={`w-full rounded-lg shadow-sm bg-gray-300 animate-pulse ${skeletonHeights[index]}`} />
+              ))
+            )}
           </div>
         )}
 

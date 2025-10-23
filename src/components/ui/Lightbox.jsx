@@ -23,7 +23,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onChangeIndex }) => {
     <div className="fixed inset-0 bg-black/90 flex items-center justify-center z-50" onClick={handleOverlayClick}>
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+        className="absolute top-4 right-4 text-white hover:text-gray-300 !bg-transparent transition-colors"
         aria-label="Close lightbox"
       >
         <X className="size-8" />
@@ -31,22 +31,22 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onChangeIndex }) => {
 
       <button
         onClick={() => onChangeIndex((currentIndex - 1 + images.length) % images.length)}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors"
+        className="absolute -left-4 top-1/2 -translate-y-1/2 text-gray-200 !bg-transparent hover:text-gray-300 transition-colors"
         aria-label="Previous image"
       >
-        <ChevronLeft className="size-8" />
+        <ChevronLeft className="size-15 " />
       </button>
 
       <button
         onClick={() => onChangeIndex((currentIndex + 1) % images.length)}
-        className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:text-gray-300 transition-colors"
+        className="absolute -right-4 top-1/2 -translate-y-1/2 text-gray-200 !bg-transparent hover:text-gray-300 transition-colors"
         aria-label="Next image"
       >
-        <ChevronRight className="size-8" />
+        <ChevronRight className="size-15" />
       </button>
 
       <img
-        src={images[currentIndex]}
+        src={images[currentIndex].url}
         alt={`Gallery image ${currentIndex + 1}`}
         className="max-w-full max-h-full object-contain"
       />

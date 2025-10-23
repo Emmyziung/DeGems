@@ -5,6 +5,7 @@ const Executives = () => {
 
 
   const {memberDisplay, people} = useGlobalContext();
+  const fourPeople = people.slice(0, 4)
   return (
     <section className="py-10 md:py-12">
       <div className="max-w-7xl mx-auto px-6">
@@ -12,8 +13,8 @@ const Executives = () => {
           Elected Executives
         </h2>
 
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {people.map((p) => (
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-sm:gap-2">
+          {fourPeople.map((p) => (
             <div
               key={p.name}
               className="rounded-xl border border-border bg-card shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col items-center text-center"
@@ -28,8 +29,8 @@ const Executives = () => {
                   p.initials
                 )}
               </div>
-              <p className="mt-4 font-[650] text-foreground">{p.name}</p>
-              <p className="text-sm text-muted-foreground">{p.role}</p>
+              <p className="mt-4 font-[650] text-nowrap  text-foreground">{p.name}</p>
+              <p className="text-sm text-nowrap  text-muted-foreground">{p.role}</p>
             </div>
           ))}
         </div>
