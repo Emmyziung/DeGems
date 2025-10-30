@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AddMemberForm from "@/components/admin/AddMemberForm";
+import Applications from "@/components/admin/Applications";
 import ViewMembersTable from "@/components/admin/ViewMembersTable";
 import AddActivityForm from "@/components/admin/AddActivityForm";
 import ViewActivitiesList from "@/components/admin/ViewActivitiesList";
@@ -15,17 +16,22 @@ import { FaCalendar } from "react-icons/fa6";
 import { FaRegCalendar } from "react-icons/fa6";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
+import { useDatabaseContext } from "@/context/databaseContext";
+import { useAdminContext } from "@/context/AdminContext";
 import { TbPhotoX } from "react-icons/tb";
 const AdminDashboard = () => {
+const { members, applications } = useAdminContext();
   const [selectedView, setSelectedView] = useState("add-member");
 
   const navItems = [
     { id: "add-member", label: "Add New Member", category: "Members"  },
     { id: "view-members", label: "View Members Database",  category: "Members" },
+    { id: "applications", label: "New Applications",  category: "Applications" },
     { id: "add-activity", label: "Add Activity",  category: "Activities" },
     { id: "view-activities", label: "View Activities",  category: "Activities" },
     { id: "add-photos", label: "Add Photos",  category: "Photos" },
     { id: "remove-photos", label: "Remove Photos",  category: "Photos" },
+
   ];
 
   const renderContent = () => {
@@ -33,7 +39,9 @@ const AdminDashboard = () => {
       case "add-member":
         return <AddMemberForm />;
       case "view-members":
-        return <ViewMembersTable />;
+        return <ViewMembersTable clubMembers={members} />;
+        case "applications":
+        return <Applications />;
       case "add-activity":
         return <AddActivityForm />;
       case "view-activities":
@@ -50,6 +58,8 @@ const AdminDashboard = () => {
       case "add-member":
         return selectedView === id ? <HiUserAdd size={18} className="text-primary"/> : <HiOutlineUserPlus size={18} strokeWidth={2} className="text-primary"/>;
       case "view-members":
+        return selectedView===id ? <HiUserGroup size={18} className="text-primary"/> : <HiOutlineUserGroup size={18} strokeWidth={2} className="text-primary" />;
+      case "applications":
         return selectedView===id ? <HiUserGroup size={18} className="text-primary"/> : <HiOutlineUserGroup size={18} strokeWidth={2} className="text-primary" />;
       case "add-activity":
         return selectedView===id ? <FaCalendarPlus size={18} className="text-primary"/> : <FaRegCalendarPlus size={18} className="text-primary" />;
@@ -98,7 +108,11 @@ const AdminDashboard = () => {
                             "!bg-white  hover:!bg-gray-200 "
                         }`}
                       >
-                       {rendericon(item.id)}  {item.label}
+                       {rendericon(item.id)}  {item.label} {item.id === "applications" && applications.length > 0 && (
+                        <span className="ml-auto inline-block bg-gray-400 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+                          {applications.length}
+                        </span>
+                      )}
                       </button>
                     ))}
                   </div>
@@ -125,7 +139,11 @@ const AdminDashboard = () => {
                   role="tab"
                   aria-selected={selectedView===item.id}
                 >
-                  {item.label}
+                  {item.label} {item.id === "applications" && applications.length > 0 && (
+                    <span className="ml-2 inline-block bg-gray-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full">
+                      {applications.length}
+                    </span>
+                  )}
                 </button>
               ))}
             </nav>
@@ -133,11 +151,11 @@ const AdminDashboard = () => {
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 bg-gray-50 flex overflow-x-hidden min-h-screen">
+        <main className="flex-1 bg-white flex overflow-x-hidden min-h-screen">
           <div className="max-md:hidden w-64 h-20">&nbsp;</div>
           <div className="py-6 w-[calc(100%-256px)] max-md:w-full  ">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
-             {selectedView === "remove-photos"  ?  <PhotoManager view={selectedView} />: selectedView === "view-members" ? <ViewMembersTable/> : <Card className='rounded max-w-full w-full overflow-x-hidden '>
+          {/*    {selectedView === "remove-photos"  ?  <PhotoManager view={selectedView} />: selectedView === "view-members" ? <ViewMembersTable clubMembers={members} /> : <Card className='rounded max-w-full w-full overflow-x-hidden '>
                 <CardHeader className='px-4'>
                   <CardTitle className='text-muted-foreground/80 pt-4 pb-2'>
                     {navItems.find(item => item.id === selectedView)?.label || "Admin Dashboard"}
@@ -147,7 +165,8 @@ const AdminDashboard = () => {
                   {renderContent()}
                 </CardContent>
               </Card>
-              }
+              } */}
+              {renderContent()}
             </div>
           </div>
         </main>

@@ -4,9 +4,35 @@ import { Button } from "@/components/ui/button";
 const Members = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    alert("Application submitted!");
+     const formData = {
+     firstName: e.target.firstName.value,
+    lastName: e.target.lastName.value,
+    email: e.target.email.value,
+    phone: e.target.phone.value,
+    reason: e.target.reason.value,
+  };
+  console.log("Submitting application:", formData);
+
+  try {
+    const res = await fetch("http://localhost:3000/apply", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert("Application submitted!");
+    } else {
+      alert("Error: " + data.error);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Network error");
+  }
+   
   };
 
   const referSignIn = () => {
@@ -23,9 +49,18 @@ const Members = () => {
             <h2 className="text-xl font-heading font-semibold mb-4">Become a Member</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
+                <label htmlFor="firstName" className="block text-sm font-medium mb-1">First Name</label>
                 <input
-                  id="name"
+                  id="firstName"
+                  type="text"
+                  className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium mb-1">Last Name</label>
+                <input
+                  id="lastName"
                   type="text"
                   className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   required

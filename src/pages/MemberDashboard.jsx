@@ -9,9 +9,9 @@ import { auth} from "@/firebase";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 const MemberDashboard =  () => {
-  const [profileData, setProfileData] =  useState([])
-  const {isAdmin} = useAuthContext();
-  useEffect(() => {
+ /*  const [profileData, setProfileData] =  useState([]) */
+  const {isAdmin, profileData} = useAuthContext();
+ /*  useEffect(() => {
   const stopListening = onAuthStateChanged(auth, (user) => {
     if  (user)  {
      fetchUserData(user.uid)
@@ -33,7 +33,7 @@ const MemberDashboard =  () => {
     } else {
       setProfileData([])
     }
-  };
+  }; */
 
   const profile = {
     name: "John Doe",

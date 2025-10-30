@@ -19,6 +19,7 @@ import DatabaseProvider from "./context/databaseContext";
 import LoginRoutes from "./components/routes/LoginRoutes";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import AuthContextProvider from "./context/AuthContext";
+import AdminContextProvider from "./context/AdminContext";
 function App() {
 
 
@@ -44,7 +45,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/members" element={<Members />} />
         <Route path="/member-dashboard" element={<LoginRoutes><MemberDashboard/></LoginRoutes>} />
-        <Route path="/admin" element={<LoginRoutes><AdminRoutes><AdminDashboard/></AdminRoutes></LoginRoutes>} />
+        <Route path="/admin" element={<LoginRoutes><AdminRoutes><AdminContextProvider><AdminDashboard/></AdminContextProvider></AdminRoutes></LoginRoutes>} />
       </Routes>
       <Footer />
       

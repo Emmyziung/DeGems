@@ -1,12 +1,14 @@
 import  {createContext, useContext, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase";
+  import { doc, getDoc } from "firebase/firestore";
 import { useDatabaseContext } from "./databaseContext";
 import {  signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth"
 export const AuthContext = createContext();
 
  const AuthContextProvider = ({children}) => {
   const {db, doc, setDoc} = useDatabaseContext()
+    const [profileData, setProfileData] =  useState([])
   const navigate = useNavigate();
       const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user'))|| null);
         const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem('isAdmin'))||null);
@@ -78,22 +80,33 @@ useEffect(() => {
              setCurrentUser(user)
           tokenResult.claims.role === 'admin' ? setIsAdmin(true) : setIsAdmin(false );
             
-       
+        fetchUserData(user.uid)
    
         }
         else {
           setCurrentUser(null)
           setIsAdmin(false);
+            setProfileData([])
           
         }
       });
       return () => unsubscribe();
     }, [])
+      const fetchUserData = async (uid) => {
+        const userDoc = doc(db, "users", uid);
+        const userSnap = await getDoc(userDoc);
+        if (userSnap.exists()) {
+          console.log("Document data:", userSnap.data());
+          setProfileData(userSnap.data());
+        } else {
+          setProfileData([])
+        }
+      };
 
 
     return (
         <AuthContext.Provider value={{auth,
-        currentUser, setCurrentUser,isAdmin, createUser ,handleSignIn
+        currentUser, setCurrentUser,isAdmin, createUser ,handleSignIn, profileData
         }}>
             {children}
         </AuthContext.Provider>

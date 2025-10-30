@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useDatabaseContext } from "@/context/databaseContext";
 
-const ViewMembersTable = () => {
-  const { members } = useDatabaseContext();
+const ViewMembersTable = ({clubMembers}) => {
 
+ 
+ console.log('members in table:', clubMembers)
 
   return (
     <Card className="rounded shadow-sm border-b-2 border-border w-full max-w-full overflow-x-hidden">
@@ -32,7 +33,7 @@ const ViewMembersTable = () => {
               </tr>
             </thead>
             <tbody className="bg-background divide-y divide-border">
-              {members.map((member) => (
+              {clubMembers.map((member) => (
                 <tr key={member.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-foreground">
                     {member.firstName}
