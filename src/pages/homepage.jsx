@@ -3,6 +3,7 @@ import Hero from "@/components/ui/hero";
 import Executives from "@/components/ui/executives";
 import Activities from "@/components/ui/activities";
 import Member from "@/components/ui/member";
+import AboutSnippet from "@/components/ui/aboutSnippet";
 
 import { useGlobalContext } from "@/context/pageContext";
 import  Modal  from "@/components/ui/modal";
@@ -13,6 +14,7 @@ const Homepage = () => {
       
       <Hero />
       <Executives />
+      <AboutSnippet/>
       <Activities />
       {showMembers && <Modal />}
       <Member />

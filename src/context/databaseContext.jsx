@@ -1,15 +1,14 @@
-import { useState, useEffect, use } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useRef, useState, useCallback } from "react";
 import { db } from "../firebase";
 import { useAuthContext } from "./AuthContext";
-import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit, arrayRemove, serverTimestamp, writeBatch, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit, arrayRemove, serverTimestamp, writeBatch, deleteDoc, startAfter } from "firebase/firestore";
 
 
 
 export const DatabaseContext = createContext();
 const DatabaseProvider = ({ children }) => {
   // Cache configuration
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+const CACHE_DURATION = 15 * 60 * 1000; // 5 minutes in milliseconds
 
 // Cache utility functions
 const getCacheKey = (type) => `degems_cache_${type}`;
@@ -86,78 +85,89 @@ const clearCache = (type) => {
      }, []);
 
 
-    const [photos, setPhotos] = useState([]);
+ const [photos, setPhotos] = useState([]);
+  const [lastDoc, setLastDoc] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-useEffect(() => {
-  const fetchPhotos = async () => {
-    // Check cache first
-    const cachedPhotos = getCachedData('photos');
-    if (cachedPhotos) {
-      setPhotos(cachedPhotos);
-      console.log("Photos loaded from cache:", cachedPhotos);
-      return;
-    }
+  const PAGE_SIZE = 20;
 
+  const fetchPhotos = useCallback(async (reset = false) => {
+    setLoading(true);
     try {
-      const q = query(collection(db, "photos"), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(q);
+      let q = query(
+        collection(db, "photos"),
+        orderBy("createdAt", "desc"),
+        limit(PAGE_SIZE)
+      );
 
-      const fetchedPhotos = querySnapshot.docs.map((doc) => ({
+      if (!reset && lastDoc) q = query(q, startAfter(lastDoc));
+
+      const snapshot = await getDocs(q);
+      const fetched = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
 
-      setPhotos(fetchedPhotos);
-      setCachedData('photos', fetchedPhotos);
-      console.log("Photos fetched from server:", fetchedPhotos);
-    } catch (error) {
-      console.error("Error fetching photos:", error);
-    }
-  };
+      const newLastDoc = snapshot.docs[snapshot.docs.length - 1];
+      setLastDoc(newLastDoc || null);
 
-  fetchPhotos();
+   setPhotos(prev => {
+  const updated = reset ? fetched : [...prev, ...fetched];
+  //setCachedData("photos", updated);
+  return updated;
+});
+      console.log("Photos fetched:", fetched);
+
+      if (fetched.length < PAGE_SIZE){
+        setHasMore(false)
+      } 
+        console.log("Fetched count:", fetched.length, "Has more:", hasMore);
+;
+    } catch (err) {
+      console.error("Error fetching photos:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [lastDoc]);
+
+  // Initial load + cache
+  useEffect(() => {
+  const cached = getCachedData("photos");
+  if (cached) {
+    setPhotos(cached);
+  } else {
+    fetchPhotos(true);
+  }
 }, []);
 
    
-    // Cache invalidation functions
-    const invalidateCache = (type) => {
-      clearCache(type);
-      if (type === 'activities') {
-        // Refetch activities
-        const fetchActivities = async () => {
-          try {
-            const q = query(collection(db, "activities"), orderBy("createdAt", "desc"));
-            const querySnapshot = await getDocs(q);
-            const fetchedActivities = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-            setActivities(fetchedActivities);
-            setCachedData('activities', fetchedActivities);
-          } catch (error) {
-            console.error("Error refetching activities:", error);
-          }
-        };
-        fetchActivities();
-      } else if (type === 'photos') {
-        // Refetch photos
-        const fetchPhotos = async () => {
-          try {
-            const q = query(collection(db, "photos"), orderBy("createdAt", "desc"));
-            const querySnapshot = await getDocs(q);
-            const fetchedPhotos = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data(),
-            }));
-            setPhotos(fetchedPhotos);
-            setCachedData('photos', fetchedPhotos);
-          } catch (error) {
-            console.error("Error refetching photos:", error);
-          }
-        };
-        fetchPhotos();
-      } 
-    };
+   const invalidateCache = async (type) => {
+  clearCache(type);
+
+  if (type === "photos") {
+    // Reset pagination
+    setPhotos([]);
+    setLastDoc(null);
+    setHasMore(true);
+    await fetchPhotos(true);
+  }
+
+  if (type === "activities") {
+    try {
+      const q = query(collection(db, "activities"), orderBy("createdAt", "desc"));
+      const querySnapshot = await getDocs(q);
+      const fetchedActivities = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCachedData("activities", fetchedActivities);
+      setActivities(fetchedActivities); // Assuming you have activities state
+    } catch (error) {
+      console.error("Error refetching activities:", error);
+    }
+  }
+};
 
     const invalidateAllCache = () => {
       clearCache('activities');
@@ -172,7 +182,7 @@ useEffect(() => {
           db, setDoc, doc, collection, query, addDoc, serverTimestamp, writeBatch, getDocs, where, orderBy, limit,
           activities, setActivities,
           
-          photos, setPhotos,
+          photos, setPhotos, hasMore, fetchPhotos, loading,
           deleteDoc, arrayRemove,
           invalidateCache, invalidateAllCache
         }}>

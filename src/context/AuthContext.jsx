@@ -1,7 +1,7 @@
 import  {createContext, useContext, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase";
-  import { doc, getDoc } from "firebase/firestore";
+  import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useDatabaseContext } from "./databaseContext";
 import {  signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth"
 export const AuthContext = createContext();
@@ -14,7 +14,7 @@ export const AuthContext = createContext();
         const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem('isAdmin'))||null);
 
 
-    const createUser = async(email, password, firstName, lastName, phone, role) => {
+    const createUser = async(email, password, firstName, lastName, phone, ) => {
       try {
         let checkedPass
         if (password.length<6){
@@ -27,14 +27,18 @@ export const AuthContext = createContext();
       
        const user = userCredential.user
      
-       storeNewUser(user.uid, firstName, lastName, email,  phone, role)
+       await storeNewUser(user.uid, firstName, lastName, email,  phone, )
        console.log('user created')
       } catch (error) {
-        console.log(error)
+          if (error.code === "auth/email-already-in-use") {
+    console.warn("This email is already registered.");
+  } else {
+    console.error("Unexpected error:", error);
+  }
       }
     }
 
-        const storeNewUser = async (id, firstName, lastName, email,  phone, role) => {
+        const storeNewUser = async (id, firstName, lastName, email,  phone, ) => {
              try {
        
         await setDoc(doc(db, "users", id ), {
@@ -42,7 +46,9 @@ export const AuthContext = createContext();
           lastName: lastName,
           email: email,
           phone: phone,
-          role: role,
+          
+          createdAt: serverTimestamp(),
+          
         });
         
         console.log("User saved successfully with ID:", id);

@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Mail, Phone, Clock, FileText } from "lucide-react";
-import { IoClose } from "react-icons/io5";
+import { FaArrowLeft } from "react-icons/fa6";
 import { useAdminContext } from "@/context/AdminContext";
+import { useAuthContext } from "@/context/AuthContext";
+import { Button } from "../ui/button";
 
 const Applications = () => {
-  const { applications } = useAdminContext();
+  const { applications, deleteApplication } = useAdminContext();
+  const {createUser} = useAuthContext()
   const [selectedApplication, setSelectedApplication] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -24,7 +27,10 @@ const Applications = () => {
       setIsClosing(false);
     }, 300);
   };
-
+  const handleApprove = (application) => {
+    createUser(application.email,application.lastName, application.firstName, application.lastName, application.phone)
+    deleteApplication(application.id)
+  }
   const statusColors = {
     pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
     approved: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
@@ -108,9 +114,9 @@ const Applications = () => {
       {isModalOpen && selectedApplication && (
         <aside className={`modal-overlay ${isClosing ? 'closing' : ''}`}>
           <div className={`modal-container bg-white overflow-y-auto ${isClosing ? 'closing' : ''}`}>
-            <div className="py-2 px-3 flex bg-transparent sticky top-0 z-50 justify-end">
-              <button className="bg-transparent" onClick={closeModal}>
-                <IoClose className="h-8 w-8 bg-transparent text-gray-800 border-3 border-gray-800 rounded-sm" />
+            <div className="pt-3 px-3 flex bg-white sticky top-0 z-50 justify-start">
+              <button className="!bg-white p-2 border-3  border-gray-600 text-gray-600 hover:border-gray-900 hover:text-gray-900 rounded-full" onClick={closeModal}>
+                <FaArrowLeft className="h-6 w-6 bg-white  " />
               </button>
             </div>
             <div className="p-6">
@@ -121,7 +127,7 @@ const Applications = () => {
                 </Badge>
               </div>
               <p className="text-muted-foreground mb-6">
-                Application submitted on {selectedApplication.appliedDate || 'Unknown date'}
+                Application submitted on {selectedApplication.createdAt.toDate().toDateString() || 'Unknown date'}
               </p>
 
               <div className="space-y-6">
@@ -130,21 +136,21 @@ const Applications = () => {
                     Contact Information
                   </h3>
                   <div className="space-y-3">
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/70 hover:bg-muted">
                       <Mail className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">Email</p>
                         <p className="text-sm text-muted-foreground">{selectedApplication.email || 'No email'}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/70 hover:bg-muted">
                       <Phone className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">Phone</p>
                         <p className="text-sm text-muted-foreground">{selectedApplication.phone || 'No phone'}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/70 hover:bg-muted">
                       <Clock className="h-5 w-5 text-muted-foreground" />
                       <div>
                         <p className="text-sm font-medium">Application Date</p>
@@ -166,8 +172,15 @@ const Applications = () => {
                       Reason for Applying
                     </h3>
                   </div>
-                  <div className="p-4 rounded-lg bg-muted/50">
+                  <div className="p-4 rounded-lg bg-muted/70 hover:bg-muted">
                     <p className="text-sm leading-relaxed">{selectedApplication.reason || 'No reason provided'}</p>
+                  </div>
+                </div>
+
+                <div className="border-t pt-6">
+                  <div className="flex justify-between items-center gap-2 mb-3">
+                    <Button onClick={()=>handleApprove(selectedApplication)} variant="primary" size={'lg'} className="mr-4 !bg-primary/90 hover:!bg-primary text-white rounded-sm">Accept Application</Button>
+                    <Button variant="primary" size="lg" className='!bg-white hover:!bg-gray-100  border-gray-700/35 rounded-sm border '>Reject</Button>
                   </div>
                 </div>
               </div>

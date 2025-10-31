@@ -7,7 +7,7 @@ import {  signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAnd
 export const AdminContext = createContext();
 
  const AdminContextProvider = ({children}) => {
-  const { db, collection, getDocs, query } = useDatabaseContext();
+  const { db, collection, getDocs, query, deleteDoc, doc } = useDatabaseContext();
 // Cache configuration
 
 
@@ -110,6 +110,16 @@ useEffect(() => {
   fetchApplications();
 }, []);
 
+const deleteApplication = async (id) => {
+    try {
+      await deleteDoc(doc(db, "applications", id));
+      setApplications((prev) => prev.filter((app) => app.id !== id));
+      console.log("Application deleted:", id);
+    } catch (error) {
+      console.error("Error deleting application:", error);
+    }
+  };
+
   
 
           // Cache invalidation functions
@@ -137,7 +147,7 @@ useEffect(() => {
           console.log('members in admin dashboard:', members)
   
     return (
-        <AdminContext.Provider value={{members, applications, invalidateMemberCache
+        <AdminContext.Provider value={{members, applications, invalidateMemberCache, deleteApplication
         }}>
             {children}
         </AdminContext.Provider>
