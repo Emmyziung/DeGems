@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-
+import { useAuthContext } from "@/context/AuthContext";
+import Error from "@/components/ui/error";
+import { useGlobalContext } from "@/context/pageContext";
+import { auth } from "@/firebase";
 const Members = () => {
   const navigate = useNavigate();
-
+const [loading, setLoading] = useState(false)
+const {errorDisplay, setErrorDisplay, setErrorMessage} = useGlobalContext()
   const handleSubmit =async (e) => {
     e.preventDefault();
      const formData = {
@@ -13,6 +18,9 @@ const Members = () => {
     phone: e.target.phone.value,
     reason: e.target.reason.value,
   };
+
+    setLoading(true)
+  
   console.log("Submitting application:", formData);
 
   try {
@@ -29,8 +37,11 @@ const Members = () => {
       alert("Error: " + data.error);
     }
   } catch (err) {
-    console.error(err);
-    alert("Network error");
+    setErrorDisplay(true)
+    setErrorMessage(err.message)
+   
+  }finally{
+    setLoading(false)
   }
    
   };
@@ -93,11 +104,12 @@ const Members = () => {
                   required
                 ></textarea>
               </div>
-              <Button type="submit" className="px-4 py-2 !bg-gradient-to-r !from-orange-500 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-xs text-base">Submit Application</Button>
+             {loading ?<Button className="px-4 py-2 !bg-gradient-to-r !from-orange-500 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-xs text-base min-w-[164px]"> <div className="loading-spinner "></div></Button>: <Button type="submit" className="px-4 py-2 !bg-gradient-to-r !from-orange-500 !to-orange-600 !text-white rounded hover:!bg-accent/90 transition-colors shadow-xs text-base">Submit Application</Button>}
             </form>
-            <div className="mt-4">
+            {errorDisplay && <Error/>}
+           {!auth.currentUser && <div className="mt-4">
               <p>Already a Member? &nbsp;<span  className="cursor-pointer text-primary text-decoration-line" onClick={referSignIn}>Sign In</span></p>
-            </div>
+            </div>}
           </div>
 
           <div className="bg-muted p-6 rounded-lg">

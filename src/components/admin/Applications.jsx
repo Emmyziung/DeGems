@@ -31,6 +31,9 @@ const Applications = () => {
     createUser(application.email,application.lastName, application.firstName, application.lastName, application.phone)
     deleteApplication(application.id)
   }
+  const handleReject = (application) => {
+    deleteApplication(application.id)
+  }
   const statusColors = {
     pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300",
     approved: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300",
@@ -39,16 +42,18 @@ const Applications = () => {
 
   if (!applications || applications.length === 0) {
     return (
-      <Card className='rounded max-w-full w-full overflow-x-hidden'>
+      <Card className='-mt-6 rounded border-0 shadow-none max-w-full w-full overflow-x-hidden'>
         <CardHeader className='px-4'>
-          <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Membership Applications</h1>
+          <div className="py-2">
+          <h1 className="text-2xl font-bold text-primary text-nowrap whitespace-nowrap">Membership Applications</h1>
           <p className="text-muted-foreground">
             Review and manage membership applications for your organization
           </p>
         </div>
         </CardHeader>
+       
         <CardContent className='px-4 pb-6 pt-2'>
+           <hr />
           <div className="text-center py-8 text-muted-foreground">
             No applications found.
           </div>
@@ -68,7 +73,9 @@ const Applications = () => {
           </p>
         </div>
         </CardHeader>
+     
         <CardContent className='px-4 pb-6 pt-2'>
+             <hr />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {applications.map((application) => (
               <Card
@@ -180,7 +187,7 @@ const Applications = () => {
                 <div className="border-t pt-6">
                   <div className="flex justify-between items-center gap-2 mb-3">
                     <Button onClick={()=>handleApprove(selectedApplication)} variant="primary" size={'lg'} className="mr-4 !bg-primary/90 hover:!bg-primary text-white rounded-sm">Accept Application</Button>
-                    <Button variant="primary" size="lg" className='!bg-white hover:!bg-gray-100  border-gray-700/35 rounded-sm border '>Reject</Button>
+                    <Button onClick={()=>handleReject(selectedApplication)} variant="primary" size="lg" className='!bg-white hover:!bg-gray-100  border-gray-700/35 rounded-sm border '>Reject</Button>
                   </div>
                 </div>
               </div>

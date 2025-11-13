@@ -13,6 +13,10 @@ const PhotoManager = ({ view }) => {
     const{photos, collection, writeBatch, serverTimestamp, db, doc, arrayRemove, setPhotos} = useDatabaseContext()
  const [files, setFiles] = useState([]);
  const [loading, setLoading] = useState(false)
+   
+  const [selected, setSelected] = useState([]);
+  const [isSelectMode, setIsSelectMode] = useState(false);
+  const [confirmModal, setConfirmModal] = useState({ open: false, targets: [] });
  const handleFileUpload = (e) => {
   const selectedFiles = Array.from(e.target.files);
     const mapped = selectedFiles.map((file) => ({
@@ -142,10 +146,7 @@ alert("Photos uploaded successfully!");
   }
 
 
-  
-  const [selected, setSelected] = useState([]);
-  const [isSelectMode, setIsSelectMode] = useState(false);
-  const [confirmModal, setConfirmModal] = useState({ open: false, targets: [] });
+
 
   // toggle select mode
   const toggleSelectMode = () => {

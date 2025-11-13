@@ -29,6 +29,7 @@ const Activities = () => {
 const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState({});
    const observerRef = useRef(null);
+   const observerInstanceRef = useRef(null);
 
   // Generate 10 varied skeleton heights for visual interest
   const skeletonHeights = [
@@ -55,17 +56,61 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const changePhotoIndex = (index) => setCurrentPhotoIndex(index);
 
-    // Infinite scroll trigger
+  // Cleanup observer on unmount
   useEffect(() => {
-    if (!hasMore || loading) return;
-    const observer = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) fetchPhotos(false);
-      },
-      { threshold: 0.5 }
-    );
-    if (observerRef.current) observer.observe(observerRef.current);
-    return () => observer.disconnect();
-  }, [fetchPhotos, hasMore, loading]);
+    return () => {
+      if (observerInstanceRef.current) {
+        observerInstanceRef.current.disconnect();
+      }
+    };
+  }, []);
+
+    // Infinite scroll trigger - setup observer once when tab changes to gallery
+  useEffect(() => {
+    if (activeTab !== "gallery") {
+      // Disconnect observer if switching away from gallery
+      if (observerInstanceRef.current) {
+        observerInstanceRef.current.disconnect();
+        observerInstanceRef.current = null;
+      }
+      return;
+    }
+
+    // Create observer if it doesn't exist
+    if (!observerInstanceRef.current) {
+      observerInstanceRef.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          fetchPhotos(false);
+        }
+      }, { threshold: 0.5 });
+    }
+
+    // Attach observer to sentinel element if available
+    if (observerRef.current && observerInstanceRef.current) {
+      observerInstanceRef.current.observe(observerRef.current);
+    }
+
+    return () => {
+      // Cleanup on unmount or tab change
+      if (observerInstanceRef.current) {
+        observerInstanceRef.current.disconnect();
+        observerInstanceRef.current = null;
+      }
+    };
+  }, [activeTab]); // Only depend on activeTab
+
+  // Separate effect to handle observer attachment when pagination state changes
+  useEffect(() => {
+    if (activeTab === "gallery" && observerInstanceRef.current && observerRef.current) {
+      if (hasMore && !loading) {
+        // Ensure observer is attached when conditions are met
+        observerInstanceRef.current.observe(observerRef.current);
+      } else {
+        // Disconnect when no more data or loading
+        observerInstanceRef.current.unobserve(observerRef.current);
+      }
+    }
+  }, [hasMore, loading, activeTab]);
 
   const handleImageLoad = (index) => {
     setLoadedImages(prev => ({ ...prev, [index]: true }));
@@ -83,17 +128,18 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
 
         <TabsNavigation activeTab={activeTab} onTabChange={handleTabChange} />
 
-        {activeTab === "activities" && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {activeTab === "activities" && 
+
+        (activities.length > 0 ? <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {activities.map((activity) => (
               <ActivityCard key={activity.id} activity={activity} />
             ))}
-          </div>
-        )}
+          </div> : <div className="w-full h-full text-center">No Activities yet</div>)}
+        
 
         {activeTab === "gallery" && (
           <div>
-          <div className="columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+          <div className="columns-2 lg:columns-3 xl:columns-4 gap-2">
             {photos.length > 0 ? (
               photos.map((photo, index) => (
                 <div key={photo.id} className="relative">

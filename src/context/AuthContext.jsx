@@ -1,18 +1,21 @@
 import  {createContext, useContext, useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase";
+import Error from "@/components/ui/error";
   import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useDatabaseContext } from "./databaseContext";
+import { useGlobalContext } from "./pageContext";
 import {  signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth"
 export const AuthContext = createContext();
 
  const AuthContextProvider = ({children}) => {
+  const {setErrorMessage, setErrorDisplay} = useGlobalContext()
   const {db, doc, setDoc} = useDatabaseContext()
     const [profileData, setProfileData] =  useState([])
   const navigate = useNavigate();
       const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user'))|| null);
         const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem('isAdmin'))||null);
-
+        const [signinLoad, setSigninLoad] = useState(false)
 
     const createUser = async(email, password, firstName, lastName, phone, ) => {
       try {
@@ -68,13 +71,18 @@ useEffect(() => {
         const formData = new FormData(e.target)
         const email = formData.get("email")
         const password = formData.get("password")
+        setSigninLoad(true)
         try {
      const userCredentials= await signInWithEmailAndPassword(auth, email, password)
      setCurrentUser(userCredentials.user)
           console.log('logged')
           navigate("/member-dashboard");
         } catch (error) {
-          alert(error.message)
+          setErrorDisplay(true)
+         setErrorMessage(error.message)
+       
+        }finally{
+          setSigninLoad(false)
         }
   
     };
@@ -112,7 +120,7 @@ useEffect(() => {
 
     return (
         <AuthContext.Provider value={{auth,
-        currentUser, setCurrentUser,isAdmin, createUser ,handleSignIn, profileData
+        currentUser, setCurrentUser,isAdmin, createUser ,handleSignIn, signinLoad, profileData
         }}>
             {children}
         </AuthContext.Provider>

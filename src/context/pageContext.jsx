@@ -10,6 +10,8 @@ export const PageContext = createContext();
 const PageProvider = ({ children }) => {
   const location = useLocation();
   const [hideFooter, setHideFooter] = useState(false);
+  const [errorDisplay, setErrorDisplay] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
 
   useEffect(() => {
     
@@ -62,7 +64,7 @@ const PageProvider = ({ children }) => {
   
 
     return (
-        <PageContext.Provider value={{ memberDisplay,people, tabs, menuDisplay, showMembers, showMenu, hideFooter, setHideFooter }}>
+        <PageContext.Provider value={{errorMessage, setErrorMessage, errorDisplay, setErrorDisplay, memberDisplay,people, tabs, menuDisplay, showMembers, showMenu, hideFooter, setHideFooter }}>
             {children}
         </PageContext.Provider>
     );

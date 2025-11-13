@@ -55,6 +55,7 @@
   --popover-foreground: #0f172a;
 
   --primary: #0c2b86; /* deep navy */
+  --primary2: hsl(220 90% 28%);
   --primary-foreground: #ffffff;
 
   --secondary: #f8fafc; /* slate-50 */
@@ -208,6 +209,7 @@ a:hover {
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
+  --color-primary2: var(--primary2);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);

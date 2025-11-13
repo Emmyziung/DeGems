@@ -6,6 +6,7 @@ import ViewMembersTable from "@/components/admin/ViewMembersTable";
 import AddActivityForm from "@/components/admin/AddActivityForm";
 import ViewActivitiesList from "@/components/admin/ViewActivitiesList";
 import PhotoManager from "@/components/admin/PhotoManager";
+import UpdatesManager from "@/components/admin/UpdatesManager";
 import { HiUserAdd } from "react-icons/hi";
 import { HiOutlineUserPlus } from "react-icons/hi2";
 import { HiUserGroup } from "react-icons/hi2";
@@ -31,6 +32,7 @@ const { members, applications } = useAdminContext();
     { id: "view-activities", label: "View Activities",  category: "Activities" },
     { id: "add-photos", label: "Add Photos",  category: "Photos" },
     { id: "remove-photos", label: "Remove Photos",  category: "Photos" },
+    { id: "updates", label: "Manage Updates",  category: "Updates" },
 
   ];
 
@@ -49,6 +51,8 @@ const { members, applications } = useAdminContext();
       case "add-photos":
       case "remove-photos":
         return <PhotoManager view={selectedView} />;
+      case "updates":
+        return <UpdatesManager />;
       default:
         return <AddMemberForm />;
     }
@@ -69,6 +73,8 @@ const { members, applications } = useAdminContext();
         return selectedView===id ? <MdAddPhotoAlternate size={18} className="text-primary"/> : <MdOutlineAddPhotoAlternate size={18} className="text-primary" />
       case "remove-photos":
         return <TbPhotoX size={18} className="text-primary" />;
+              case "updates":
+        return selectedView===id ? <HiUserGroup size={18} className="text-primary"/> : <HiOutlineUserGroup size={18} strokeWidth={2} className="text-primary" />;
       default:
         return <HiUserAdd />;
     }

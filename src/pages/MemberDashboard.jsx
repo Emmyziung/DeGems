@@ -45,14 +45,14 @@ const MemberDashboard =  () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-4xl mx-auto px-6 py-8">
-        <div className="flex flex-col justify-between items-start mb-8 md:flex-row md:items-center">
+      <div className=" mx-auto  ">
+        <div className="flex flex-col justify-between bg-primary2 items-start mb-8 md:flex-row md:items-center">
          
-          <h1 className="text-3xl font-heading font-bold text-primary">Member Dashboard</h1>
-         
+         {/*  <h1 className="text-3xl font-heading font-bold text-primary">Member Dashboard</h1> */}
+           <ProfileHeader profileData={profileData} className='' />
         
         </div>
-        <ProfileHeader profileData={profileData} />
+      
         <div className="mt-8">
           <MembersTabs />
         </div>

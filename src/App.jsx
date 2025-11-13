@@ -5,6 +5,7 @@ import AboutPage from "./pages/aboutPage";
 import Activities from "./pages/Activities";
 import ActivityDetail from "./pages/ActivityDetail";
 import SignIn from "./pages/SignIn";
+import Settings from "./pages/settings";
 import Members from "./pages/Members";
 import MemberDashboard from "./pages/MemberDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -45,6 +46,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/members" element={<Members />} />
         <Route path="/member-dashboard" element={<LoginRoutes><MemberDashboard/></LoginRoutes>} />
+        <Route path="/settings" element={<LoginRoutes><Settings/></LoginRoutes>} />
         <Route path="/admin" element={<LoginRoutes><AdminRoutes><AdminContextProvider><AdminDashboard/></AdminContextProvider></AdminRoutes></LoginRoutes>} />
       </Routes>
       <Footer />

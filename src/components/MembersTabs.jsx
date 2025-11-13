@@ -2,14 +2,15 @@ import { useState } from "react";
 import ClubUpdates from "./ClubUpdates";
 import PaymentHistory from "./PaymentHistory";
 import MembershipDues from "./MembershipDues";
-
+import ChangePassword from "./changePassword";
 const MembersTabs = () => {
   const [activeTab, setActiveTab] = useState('updates');
 
   const tabs = [
     { id: 'updates', label: 'Club Updates', component: ClubUpdates },
     { id: 'history', label: 'Payment History', component: PaymentHistory },
-    { id: 'dues', label: 'Membership Dues', component: MembershipDues }
+    { id: 'dues', label: 'Membership Dues', component: MembershipDues },
+     { id: 'password', label: 'Change Password', component: ChangePassword }
   ];
 
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component;

@@ -114,16 +114,14 @@ const clearCache = (type) => {
 
    setPhotos(prev => {
   const updated = reset ? fetched : [...prev, ...fetched];
-  //setCachedData("photos", updated);
+  
   return updated;
 });
-      console.log("Photos fetched:", fetched);
+      console.log("Photos fetched:", fetched.length, "photos");
 
       if (fetched.length < PAGE_SIZE){
         setHasMore(false)
-      } 
-        console.log("Fetched count:", fetched.length, "Has more:", hasMore);
-;
+      }
     } catch (err) {
       console.error("Error fetching photos:", err);
     } finally {
