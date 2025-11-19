@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, useCallback } from "react";
 import { db } from "../firebase";
 import { useAuthContext } from "./AuthContext";
-import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit, arrayRemove, serverTimestamp, writeBatch, deleteDoc, startAfter } from "firebase/firestore";
+import { collection, getDocs, addDoc, setDoc, doc, query, where, orderBy, limit, arrayRemove, serverTimestamp, writeBatch, deleteDoc, updateDoc, startAfter } from "firebase/firestore";
 
 
 
@@ -175,10 +175,24 @@ const clearCache = (type) => {
       window.location.reload();
     };
 
+   const updateEdit = async (id, heading, body) => {
+    try {
+      const updateRef = doc(db, "updates", id);
+      await updateDoc(updateRef, {
+        heading,
+        body,
+        updatedAt: serverTimestamp(),
+      });
+      console.log("Update updated:", id);
+    } catch (error) {
+      console.error("Error updating update:", error);
+    }
+  } 
+
     return (
         <DatabaseContext.Provider value={{
-          db, setDoc, doc, collection, query, addDoc, serverTimestamp, writeBatch, getDocs, where, orderBy, limit,
-          activities, setActivities,
+          db, setDoc, doc, collection, query, addDoc, serverTimestamp, writeBatch, getDocs, where, orderBy, limit,getCachedData, setCachedData, clearCache, updateEdit,
+          activities, setActivities, 
           
           photos, setPhotos, hasMore, fetchPhotos, loading,
           deleteDoc, arrayRemove,

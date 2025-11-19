@@ -15,23 +15,25 @@ const ProfileHeader = ({ profileData }) => {
     navigate("/admin");
   };
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-center gap-4 p-6 bg-primary2 rounded-lg shadow-sm">
-      <div className="w-20 h-20 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xl font-bold">
+    <div className="flex flex-col sm:flex-row items-center sm:items-center w-full justify-between p-6 bg-gradient-to-br from-primary2 to-primary3 rounded-lg shadow-sm ">
+      <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <div className="w-25 h-25 rounded-full bg-primary-foreground/90 text-primary flex items-center justify-center text-xl border-2 border-accent font-bold">
         {img ? (
           <img src={img} alt={firstName} className="w-full h-full rounded-full object-cover" />
         ) : (
           initials
         )}
       </div>
-      <div className="flex-1 text-center  md:text-left">
-        <h2 className="text-xl font-heading font-bold">{fullName}</h2>
+      <div className="flex-1 text-center text-primary-foreground sm:text-left">
+        <h2 className="text-xl  font-heading font-bold"> Welcome, <span className="text-accent">{fullName}</span></h2>
         
-        <p className="text-muted-foreground">Member ID: {fullName}</p>
-        <p className="text-muted-foreground">{fullName}</p>
-        <p className="text-muted-foreground">Joined: {lastName}</p>
+        <p>Member ID: {fullName}</p>
+        <p >{fullName}</p>
+        <p >Joined: {lastName}</p>
       </div>
-          <Button><Link to='/settings'><Settings/></Link></Button>
-          {isAdmin &&   <Button onClick={handleAdminDashboard} variant="outline">Admin Dashboard</Button> }
+      </div>
+          {/* <Button><Link to='/settings'><Settings/></Link></Button> */}
+          {isAdmin &&   <Button onClick={handleAdminDashboard} className="bg-primary-foreground/90 text-primary text-md border border-primary hover:!bg-primary-foreground/70" size='lg' variant="outline">Admin Dashboard</Button> }
     </div>
   );
 };

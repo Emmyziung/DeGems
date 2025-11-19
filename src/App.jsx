@@ -21,6 +21,7 @@ import LoginRoutes from "./components/routes/LoginRoutes";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import AuthContextProvider from "./context/AuthContext";
 import AdminContextProvider from "./context/AdminContext";
+import MemberContextProvider from "./context/MemberContext";
 function App() {
 
 
@@ -45,9 +46,9 @@ function App() {
         <Route path="/Activities/:id" element={<ActivityDetail />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/members" element={<Members />} />
-        <Route path="/member-dashboard" element={<LoginRoutes><MemberDashboard/></LoginRoutes>} />
+        <Route path="/member-dashboard" element={<LoginRoutes><MemberContextProvider><MemberDashboard/></MemberContextProvider></LoginRoutes>} />
         <Route path="/settings" element={<LoginRoutes><Settings/></LoginRoutes>} />
-        <Route path="/admin" element={<LoginRoutes><AdminRoutes><AdminContextProvider><AdminDashboard/></AdminContextProvider></AdminRoutes></LoginRoutes>} />
+        <Route path="/admin" element={<LoginRoutes><AdminRoutes><MemberContextProvider><AdminContextProvider><AdminDashboard/></AdminContextProvider></MemberContextProvider></AdminRoutes></LoginRoutes>} />
       </Routes>
       <Footer />
       

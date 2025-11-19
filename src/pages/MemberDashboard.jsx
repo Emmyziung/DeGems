@@ -35,25 +35,19 @@ const MemberDashboard =  () => {
     }
   }; */
 
-  const profile = {
-    name: "John Doe",
-    memberId: "MEM001",
-    email: "john.doe@example.com",
-    joinDate: "January 15, 2023",
-    avatar: null
-  };
+
 
   return (
     <div className="min-h-screen bg-background">
       <div className=" mx-auto  ">
-        <div className="flex flex-col justify-between bg-primary2 items-start mb-8 md:flex-row md:items-center">
+        <div className="flex flex-col justify-between bg-primary2 items-start  md:flex-row md:items-center">
          
          {/*  <h1 className="text-3xl font-heading font-bold text-primary">Member Dashboard</h1> */}
            <ProfileHeader profileData={profileData} className='' />
         
         </div>
       
-        <div className="mt-8">
+        <div >
           <MembersTabs />
         </div>
       </div>

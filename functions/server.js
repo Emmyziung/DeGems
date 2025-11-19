@@ -3,13 +3,18 @@ const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
 const { getFirestore } = require("firebase-admin/firestore");
-
+const { apiLimiter, sensitiveLimiter } = require("./rateLimiter")
 require("dotenv").config();
 
 // Initialize Express app
 const app = express();
 app.use(cors());
 app.use(express.json()); // Parse JSON body
+app.set("trust proxy", 1);
+
+app.use(apiLimiter);
+
+
 
 // Load Firebase service account
 const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT_KEY_PATH);
@@ -22,7 +27,7 @@ admin.initializeApp({
 const db = getFirestore();
 
 // Handle form submissions
-app.post("/apply", async (req, res) => {
+app.post("/apply", sensitiveLimiter, async (req, res) => {
   try {
     const { firstName, lastName, email, phone, reason } = req.body;
 

@@ -1,18 +1,63 @@
 import { useState } from "react";
+import { deleteDoc } from "firebase/firestore";
+import UpdateEdit from "../ui/updateEdit";
 import { Button } from "@/components/ui/button";
+import { FaArrowLeft } from "react-icons/fa6";
+import { FaTrashAlt } from "react-icons/fa";
 import { useDatabaseContext } from "@/context/databaseContext";
+import { Trash2 } from "lucide-react";
+import { useMemberContext } from "@/context/MemberContext";
 import { IoMdAdd } from "react-icons/io";
 import { MdModeEditOutline } from "react-icons/md";
 const UpdatesManager = () => {
+  const{invalidateCache, updates} = useMemberContext()
      const{addDoc, collection, writeBatch, serverTimestamp, db, doc} = useDatabaseContext()
+     const [confirmModal, setConfirmModal] =useState(false);             
     const [clickedAdd, setClickedAdd] = useState(false)
     const [clickedManage, setClickedManage] = useState(false)
+    const [selectedUpdate, setSelectedUpdate] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+
+   const handleEditClick = (update) => {
+    setSelectedUpdate(update);
+    setIsModalOpen(true);
+  };
+  const handleCancelDelete = () => {
+    setConfirmModal(false);
+    setSelectedUpdate(null);
+  };
+  const handleDeleteClick = (update) => {
+    setConfirmModal(true);
+    setSelectedUpdate(update)
+    console.log(update.id);
+    
+  };
+  const handleDelete = async (id) => {
+    // Delete the update itself
+    await deleteDoc(doc(db, "updates", id));
+    await invalidateCache();
+    console.log("Deleted update:", id);
+
+    setConfirmModal(false);
+    setSelectedUpdate(null);
+  };                
+
+  const closeModal = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsModalOpen(false);
+      setSelectedUpdate(null);
+      setIsClosing(false);
+    }, 300);
+  };
     const [formData, setFormData] = useState({
         heading: "",
         body:"",
        
         
       });
+    
       const handleAddClick = () => {
         setClickedAdd(!clickedAdd)
       }
@@ -33,6 +78,8 @@ const UpdatesManager = () => {
               });
               
               console.log("Upload succesful");
+              await invalidateCache();
+
             } catch (error) {
               console.error("Error uploading update:", error.message);
             }
@@ -78,11 +125,12 @@ const UpdatesManager = () => {
               onChange={handleChange}
               className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               required
+              
             />
           </div>
           <div>
             <label htmlFor="body" className="block text-muted-foreground text-sm font-medium mb-1">
-              Body
+              Body 
             </label>
             <textarea
               id="body"
@@ -107,6 +155,79 @@ const UpdatesManager = () => {
             clickedManage ? "rotate-360" : ""
           }`}><MdModeEditOutline /></div>
             </button>
+
+            {clickedManage &&  updates.map((update) => {
+                    const maxLength = 100;
+                    const shortBody =
+                      update.body.length > maxLength
+                        ? update.body.slice(0, maxLength) + "..."
+                        : update.body;
+            
+                    return (
+                      <div
+                        key={update.id}
+                        className="flex items-center mt-3 justify-between p-4 border border-border rounded-md bg-muted/50"
+                      >
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-foreground">
+                            {update.heading}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            {shortBody}
+                          </p>
+                          <p className="text-xs text-muted-foreground mt-1">
+                             {update.createdAt
+              ? new Date(update.createdAt.seconds * 1000).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" })
+
+              : ""}
+                          </p>
+                        </div>
+                        <div className="flex space-x-2 ml-4">
+                          <button
+                            onClick={() => handleEditClick(update)}
+                            className="p-2 text-muted-foreground/80 hover:text-muted-foreground transition-colors !bg-transparent"
+                            title="Edit"
+                          >
+                            <MdModeEditOutline size={25} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(update)}
+                            className="p-2 text-muted-foreground/80 hover:text-red-500 transition-colors !bg-transparent"
+                            title="Delete"
+                          >
+                            <FaTrashAlt size={25} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  }) }
+
+
+            {isModalOpen && selectedUpdate && <UpdateEdit update={selectedUpdate} closeModal={closeModal} isClosing={isClosing} handleChange={handleChange} invalidateCache={invalidateCache} />}
+       {confirmModal && selectedUpdate && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-30">
+          <div className="bg-white rounded-lg shadow-xl w-80 p-6 text-center">
+            <Trash2 size={36} className="text-red-600 mx-auto mb-3" />
+            <p className="text-gray-800 font-medium mb-4">
+              Are you sure you want to delete this Update?
+            </p>
+            <div className="flex justify-between mt-4">
+              <button
+                onClick={handleCancelDelete}
+                className="px-4 py-2 rounded-md !bg-gray-200 hover:!bg-gray-300 text-gray-700 w-1/2 mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {handleDelete(selectedUpdate.id)}}
+                className="px-4 py-2 rounded-md !bg-red-600 hover:!bg-red-700 text-white w-1/2 ml-2"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }   

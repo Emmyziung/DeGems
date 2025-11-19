@@ -22,7 +22,7 @@ const MembersTabs = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 text-sm font-medium transition-colors ${
+            className={`px-4 py-2 md:py-4 text-sm font-medium transition-colors ${
               activeTab === tab.id
                 ? 'border-b-2 border-primary text-primary'
                 : 'text-muted-foreground hover:text-foreground'
@@ -34,7 +34,7 @@ const MembersTabs = () => {
           </button>
         ))}
       </div>
-      <div role="tabpanel">
+      <div className="px-4" role="tabpanel">
         {ActiveComponent && <ActiveComponent />}
       </div>
     </div>
