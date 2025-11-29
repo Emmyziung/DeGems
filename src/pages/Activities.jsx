@@ -33,7 +33,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   // Generate 10 varied skeleton heights for visual interest
   const skeletonHeights = [
-"h-48", "h-56", "h-64", "h-72", "h-80"
+"h-48", "h-56", "h-64", "h-72", "h-80" , "h-56", "h-64", "h-72", "h-80", "h-48"
   ];
   const handleTabChange = (tab) =>{
     setActiveTab(tab);
@@ -160,7 +160,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
             ) : (
               // Show 10 skeleton placeholders when no photos are loaded
               Array.from({ length: 10 }, (_, index) => (
-                <div key={`skeleton-${index}`} className={`w-full rounded-lg shadow-sm bg-gray-300 animate-pulse ${skeletonHeights[index]}`} />
+                <div key={`skeleton-${index}`} className={`w-full rounded-lg shadow-sm mb-2 bg-gray-300 animate-pulse ${skeletonHeights[index]}`} />
               ))
             )}
           </div>

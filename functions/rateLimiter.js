@@ -14,8 +14,8 @@ const apiLimiter = rateLimit({
 
 // Strict limit for sensitive routes
 const sensitiveLimiter = rateLimit({
-  windowMs: 60 * 1000,        // 1 minute
-  max: 5,
+  windowMs: 2 * 60 * 1000,        // 1 minute
+  max: 3,
   standardHeaders: true,
   legacyHeaders: false,
   handler: (_, res) => {
