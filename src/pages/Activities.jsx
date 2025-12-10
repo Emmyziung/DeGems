@@ -56,61 +56,9 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const changePhotoIndex = (index) => setCurrentPhotoIndex(index);
 
-  // Cleanup observer on unmount
-  useEffect(() => {
-    return () => {
-      if (observerInstanceRef.current) {
-        observerInstanceRef.current.disconnect();
-      }
-    };
-  }, []);
 
-    // Infinite scroll trigger - setup observer once when tab changes to gallery
-  useEffect(() => {
-    if (activeTab !== "gallery") {
-      // Disconnect observer if switching away from gallery
-      if (observerInstanceRef.current) {
-        observerInstanceRef.current.disconnect();
-        observerInstanceRef.current = null;
-      }
-      return;
-    }
 
-    // Create observer if it doesn't exist
-    if (!observerInstanceRef.current) {
-      observerInstanceRef.current = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting && hasMore && !loading) {
-          fetchPhotos(false);
-        }
-      }, { threshold: 0.5 });
-    }
 
-    // Attach observer to sentinel element if available
-    if (observerRef.current && observerInstanceRef.current) {
-      observerInstanceRef.current.observe(observerRef.current);
-    }
-
-    return () => {
-      // Cleanup on unmount or tab change
-      if (observerInstanceRef.current) {
-        observerInstanceRef.current.disconnect();
-        observerInstanceRef.current = null;
-      }
-    };
-  }, [activeTab]); // Only depend on activeTab
-
-  // Separate effect to handle observer attachment when pagination state changes
-  useEffect(() => {
-    if (activeTab === "gallery" && observerInstanceRef.current && observerRef.current) {
-      if (hasMore && !loading) {
-        // Ensure observer is attached when conditions are met
-        observerInstanceRef.current.observe(observerRef.current);
-      } else {
-        // Disconnect when no more data or loading
-        observerInstanceRef.current.unobserve(observerRef.current);
-      }
-    }
-  }, [hasMore, loading, activeTab]);
 
   const handleImageLoad = (index) => {
     setLoadedImages(prev => ({ ...prev, [index]: true }));
@@ -137,36 +85,59 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
           </div> : <div className="w-full h-full text-center">No Activities yet</div>)}
         
 
-        {activeTab === "gallery" && (
-          <div>
-          <div className="columns-2 lg:columns-3 xl:columns-4 gap-2">
-            {photos.length > 0 ? (
-              photos.map((photo, index) => (
-                <div key={photo.id} className="relative">
-                  {!loadedImages[index] && (
-                    <div className={`absolute inset-0 z-10 rounded-lg shadow-sm bg-gray-300 animate-pulse ${skeletonHeights[index % skeletonHeights.length]}`} />
-                  )}
-                  <LazyLoadImage
-                    effect="blur"
-                    src={photo.url}
-                    alt={`Gallery photo ${index + 1}`}
-                    className="w-full rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                    onClick={() => openLightbox(index)}
-                    onLoad={() => handleImageLoad(index)}
-                    onError={() => handleImageError(index)}
-                  />
-                </div>
-              ))
-            ) : (
-              // Show 10 skeleton placeholders when no photos are loaded
-              Array.from({ length: 10 }, (_, index) => (
-                <div key={`skeleton-${index}`} className={`w-full rounded-lg shadow-sm mb-2 bg-gray-300 animate-pulse ${skeletonHeights[index]}`} />
-              ))
+       {activeTab === "gallery" && (
+  <div>
+    <div className="columns-2 lg:columns-3 xl:columns-4 gap-2">
+      {photos.length > 0 ? (
+        photos.map((photo, index) => (
+          <div key={photo.id} className="relative mb-2">
+            {!loadedImages[index] && (
+              <div
+                className={`absolute inset-0 z-10 rounded-lg shadow-sm bg-gray-300 animate-pulse ${
+                  skeletonHeights[index % skeletonHeights.length]
+                }`}
+              />
             )}
+
+            <LazyLoadImage
+              effect="blur"
+              src={photo.url}
+              alt={`Gallery photo ${index + 1}`}
+              className="w-full rounded-lg shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => openLightbox(index)}
+              onLoad={() => handleImageLoad(index)}
+              onError={() => handleImageError(index)}
+            />
           </div>
-          <div ref={observerRef} className="h-10" />
-          </div>
-        )}
+        ))
+      ) : (
+        // Show 10 skeleton placeholders when no photos are loaded
+        Array.from({ length: 10 }, (_, index) => (
+          <div
+            key={`skeleton-${index}`}
+            className={`w-full rounded-lg shadow-sm mb-2 bg-gray-300 animate-pulse ${skeletonHeights[index]}`}
+          />
+        ))
+      )}
+    </div>
+
+    {/* SEE MORE BUTTON */}
+    <div className="flex justify-center mt-6">
+      {hasMore ? (
+        <button
+          onClick={() => fetchPhotos(false)}
+          disabled={loading}
+          className="px-4 py-2 bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition"
+        >
+          {loading ? "Loading..." : "See More"}
+        </button>
+      ) : (
+        <p className="text-center text-gray-500">No more photos</p>
+      )}
+    </div>
+  </div>
+)}
+
 
         <Lightbox
           images={photos}

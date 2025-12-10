@@ -18,6 +18,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onChangeIndex }) => {
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
+  const url = images[currentIndex].url
 
   return (
     <div className="fixed inset-0 bg-black/99 flex items-center justify-center z-50" onClick={handleOverlayClick}>
@@ -46,7 +47,7 @@ const Lightbox = ({ images, currentIndex, isOpen, onClose, onChangeIndex }) => {
       </button>
 
       <img
-        src={images[currentIndex].url}
+        src={url ? url: images[currentIndex]}
         alt={`Gallery image ${currentIndex + 1}`}
         className="max-w-full max-h-full object-contain"
       />

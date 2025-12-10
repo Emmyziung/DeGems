@@ -92,42 +92,43 @@ const clearCache = (type) => {
 
   const PAGE_SIZE = 20;
 
-  const fetchPhotos = useCallback(async (reset = false) => {
-    setLoading(true);
-    try {
-      let q = query(
-        collection(db, "photos"),
-        orderBy("createdAt", "desc"),
-        limit(PAGE_SIZE)
-      );
+const fetchPhotos = useCallback(async (reset = false) => {
+  if (loading) return; // prevent double fetches
 
-      if (!reset && lastDoc) q = query(q, startAfter(lastDoc));
+  setLoading(true);
+  try {
+    let q = query(
+      collection(db, "photos"),
+      orderBy("createdAt", "desc"),
+      limit(PAGE_SIZE)
+    );
 
-      const snapshot = await getDocs(q);
-      const fetched = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    if (!reset && lastDoc) q = query(q, startAfter(lastDoc));
 
-      const newLastDoc = snapshot.docs[snapshot.docs.length - 1];
-      setLastDoc(newLastDoc || null);
+    const snapshot = await getDocs(q);
+    const fetched = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
 
-   setPhotos(prev => {
-  const updated = reset ? fetched : [...prev, ...fetched];
-  
-  return updated;
-});
-      console.log("Photos fetched:", fetched.length, "photos");
+    // Safety: ensure we never fetch more than PAGE_SIZE
+    const limitedFetched = fetched.slice(0, PAGE_SIZE);
 
-      if (fetched.length < PAGE_SIZE){
-        setHasMore(false)
-      }
-    } catch (err) {
-      console.error("Error fetching photos:", err);
-    } finally {
-      setLoading(false);
+    const newLastDoc = snapshot.docs[limitedFetched.length - 1] || null;
+    setLastDoc(newLastDoc);
+
+    setPhotos(prev => (reset ? limitedFetched : [...prev, ...limitedFetched]));
+
+    if (limitedFetched.length < PAGE_SIZE) {
+      setHasMore(false);
     }
-  }, [lastDoc]);
+  } catch (err) {
+    console.error("Error fetching photos:", err);
+  } finally {
+    setLoading(false);
+  }
+}, [lastDoc, loading]);
+
 
   // Initial load + cache
   useEffect(() => {

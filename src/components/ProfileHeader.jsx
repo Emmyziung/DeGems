@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const ProfileHeader = ({ profileData }) => {
   const {isAdmin} = useAuthContext();
 
-  const { lastName, img, firstName } = profileData
+  const { lastName, imageUrl, firstName } = profileData
   const initials = firstName && lastName ? `${firstName.charAt(0)}${lastName.charAt(0)}` : "NA";
   const fullName = firstName && lastName ? `${firstName} ${lastName}` : "No Name";
   const navigate = useNavigate();
@@ -18,8 +18,8 @@ const ProfileHeader = ({ profileData }) => {
     <div className="flex flex-col sm:flex-row items-center sm:items-center w-full justify-between p-6 bg-gradient-to-br from-primary2 to-primary3 rounded-lg shadow-sm ">
       <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
       <div className="w-25 h-25 rounded-full bg-primary-foreground/90 text-primary flex items-center justify-center text-xl border-2 border-accent font-bold">
-        {img ? (
-          <img src={img} alt={firstName} className="w-full h-full rounded-full object-cover" />
+        {imageUrl ? (
+          <img src={imageUrl} alt={firstName} className="w-full h-full rounded-full object-cover" />
         ) : (
           initials
         )}

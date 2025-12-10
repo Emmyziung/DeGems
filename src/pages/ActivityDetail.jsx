@@ -1,20 +1,33 @@
 import { useParams } from "react-router-dom";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import { useState } from "react";
 import img1 from "@/img/family-enjoying-their-quality-winter-time.jpg";
 import img2 from "@/img/23682.jpg";
 import img3 from "@/img/8990534.png";
 import { useDatabaseContext } from "@/context/databaseContext";
-
+import Lightbox from "@/components/ui/Lightbox";
 
 const ActivityDetail = () => {
   const {activities} = useDatabaseContext()
   const { id } = useParams();
   
   const activity = activities.find((a) => a.id === id);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
   if (!activity) {
     return <div className="min-h-screen flex items-center justify-center">Activity not found</div>;
   }
+
+    const openLightbox = (index) => {
+    setCurrentPhotoIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => setLightboxOpen(false);
+
+  const changePhotoIndex = (index) => setCurrentPhotoIndex(index);
+
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
@@ -55,6 +68,7 @@ const imageUrls = activity.img|| [];
         src={url}
         alt={`Activity photo ${index + 1}`}
         className="w-full h-64 object-cover rounded-lg shadow-sm"
+        onClick={() => openLightbox(index)}
       />
     ))
   ) : (
@@ -64,6 +78,14 @@ const imageUrls = activity.img|| [];
   )}
               
             </div>
+
+            <Lightbox
+              images={imageUrls}
+              currentIndex={currentPhotoIndex}
+              isOpen={lightboxOpen}
+              onClose={closeLightbox}
+              onChangeIndex={changePhotoIndex}
+            />
           </div>
 
           <aside className="space-y-4">
@@ -72,8 +94,7 @@ const imageUrls = activity.img|| [];
               <div className="space-y-2">
                 <p><strong>Date:</strong> {activity.date}</p>
                 <p><strong>Location:</strong> {activity.location}</p>
-                <p><strong>Time:</strong> 7:00 PM</p>
-                <p><strong>Dress Code:</strong> Formal</p>
+                <p><strong>Dress Code:</strong> Native Attire</p>
               </div>
             </div>
           </aside>

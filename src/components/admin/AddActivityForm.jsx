@@ -144,7 +144,7 @@ const handleSubmit = async (e) => {
               value={formData.date}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-input rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              required
+           
             />
           </div>
         <div className="">

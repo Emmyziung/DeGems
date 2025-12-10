@@ -1,4 +1,5 @@
 import  {createContext, useContext, useState, useEffect} from "react";
+import {createClient} from '@supabase/supabase-js'
 import { useNavigate } from "react-router-dom";
 import { auth } from "@/firebase";
 import Error from "@/components/ui/error";
@@ -7,17 +8,23 @@ import { useDatabaseContext } from "./databaseContext";
 import { useGlobalContext } from "./pageContext";
 import {  signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth"
 export const AuthContext = createContext();
+import uploadImagesToCloudinary from "@/utilities/cloudinaryUpload";
+import uploadSingleImageToCloudinary from "@/utilities/singleImageUpload";
 
  const AuthContextProvider = ({children}) => {
   const {setErrorMessage, setErrorDisplay} = useGlobalContext()
   const {db, doc, setDoc} = useDatabaseContext()
     const [profileData, setProfileData] =  useState([])
   const navigate = useNavigate();
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
       const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user'))|| null);
         const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem('isAdmin'))||null);
         const [signinLoad, setSigninLoad] = useState(false)
 
-    const createUser = async(email, password, firstName, lastName, phone, ) => {
+    const createUser = async(email, password, firstName, lastName, phone, position, gender, desc, member_id, socialLinks, file ) => {
       try {
         let checkedPass
         if (password.length<6){
@@ -29,8 +36,11 @@ export const AuthContext = createContext();
       const userCredential = await createUserWithEmailAndPassword(auth, email, checkedPass)
       
        const user = userCredential.user
-     
-       await storeNewUser(user.uid, firstName, lastName, email,  phone, )
+       console.log('starting upload')
+         const imageUrl = await uploadSingleImageToCloudinary(file);
+         console.log(imageUrl)
+         console.log('starting to store user')
+       await storeNewUser(user.uid, firstName, lastName, email,  phone, position, gender, desc, member_id, socialLinks, imageUrl || null);
        console.log('user created')
       } catch (error) {
           if (error.code === "auth/email-already-in-use") {
@@ -41,7 +51,7 @@ export const AuthContext = createContext();
       }
     }
 
-        const storeNewUser = async (id, firstName, lastName, email,  phone, ) => {
+        const storeNewUser = async (id, firstName, lastName, email,  phone, position, gender, desc, member_id, socialLinks, imageUrl ) => {
              try {
        
         await setDoc(doc(db, "users", id ), {
@@ -49,7 +59,12 @@ export const AuthContext = createContext();
           lastName: lastName,
           email: email,
           phone: phone,
-          
+          position: position,
+          gender: gender,
+          desc: desc,
+          member_id: member_id,
+          socialLinks: socialLinks,
+          imageUrl: imageUrl,
           createdAt: serverTimestamp(),
           
         });
@@ -91,10 +106,25 @@ useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (user) {
             const tokenResult = await user.getIdTokenResult(true);
+            console.log(tokenResult.claims)
              setCurrentUser(user)
           tokenResult.claims.role === 'admin' ? setIsAdmin(true) : setIsAdmin(false );
-            
-        fetchUserData(user.uid)
+              const token = await user.getIdToken(); // Firebase ID token
+              console.log('token', token)
+    // Use a Supabase client that passes token as Bearer header
+    const supabaseWithToken = createClient(supabaseUrl, supabaseAnonKey, {
+      global: {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    });
+     fetchUserData(user.uid)
+     // Example query with RLS enforced
+    const { data, error } = await supabaseWithToken
+      .from('members')
+      .select('*');
+
+    console.log(data, error);
+       
    
         }
         else {
