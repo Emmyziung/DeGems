@@ -1,6 +1,4 @@
-import img1 from "@/img/close-up-portrait-smiling-african-man-looking.jpg";
-import img2 from "@/img/close-up-smiley-man-with-glasses.jpg";
-import img3 from "@/img/portrait-smiley-black-man.jpg"
+
 import { useState, useEffect } from "react";
 import { createContext, useContext,  } from "react";
 import { useLocation } from "react-router-dom";

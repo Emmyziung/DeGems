@@ -11,10 +11,10 @@ const About = () => {
        <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl">
-               <h2 className="flex w-full max-w-3xl md:max-w-4xl mx-auto text-3xl md:text-4xl font-semibold  tracking-tight text-primary ">
+               <h2 className="flex w-full max-w-3xl md:max-w-4xl mx-auto text-3xl md:text-4xl font-bold  tracking-tight text-primary ">
             Our History
           </h2>
-          <h4 className="text-accent flex w-full max-w-3xl md:max-w-4xl mx-auto pt-2 max-sm:text-sm max-sm:font-medium mb-4 sm:mb-8">A Brief History of De Gems Exclusive Club of Iperu-Remo</h4>
+          <h4 className="text-accent flex w-full max-w-3xl md:max-w-4xl mx-auto pt-2 max-sm:text-sm max-sm:font-[600] mb-4 sm:mb-8">A Brief History of De Gems Exclusive Club of Iperu-Remo</h4>
             
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
               <p className="leading-relaxed">
@@ -37,7 +37,7 @@ const About = () => {
       <section className="bg-muted/30 py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-3xl font-bold text-foreground">Our Milestones</h2>
+            <h2 className="mb-8 text-xl font-bold text-foreground">Our Milestones</h2>
             
             <div className="prose prose-lg max-w-none space-y-6 text-foreground">
               <p className="leading-relaxed">
@@ -67,12 +67,12 @@ const About = () => {
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl">
-            <h2 className="mb-8 text-3xl font-bold text-foreground">Leadership Through the Years</h2>
+            <h2 className="mb-8 text-xl font-bold text-foreground">Leadership Through the Years</h2>
             
             <div className="space-y-12">
               {/* First Executive Team */}
               <div>
-                <h3 className="mb-4 text-xl font-bold text-accent">First Executive Team (2018-2020)</h3>
+                <h3 className="mb-4 text-md font-bold text-accent">First Executive Team (2018-2020)</h3>
                 <p className="mb-4 leading-relaxed text-foreground">
                   At the inaugural meeting, the first set of executive members were nominated to steer the affairs of the club:
                 </p>
@@ -94,7 +94,7 @@ const About = () => {
 
               {/* Second Executive Team */}
               <div>
-                <h3 className="mb-4 text-xl font-bold text-accent">Second Executive Team (2020-2023)</h3>
+                <h3 className="mb-4 text-md font-bold text-accent">Second Executive Team (2020-2023)</h3>
                 <p className="mb-4 leading-relaxed text-foreground">
                   Following the club's first election in 2020, the second executive team emerged:
                 </p>
@@ -116,7 +116,7 @@ const About = () => {
 
               {/* Current Executive Team */}
               <div>
-                <h3 className="mb-4 text-xl font-bold text-accent">Current Executive Team (2024-Present)</h3>
+                <h3 className="mb-4 text-md font-bold text-accent">Current Executive Team (2024-Present)</h3>
                 <p className="mb-4 leading-relaxed text-foreground">
                   A new election in 2024 ushered in the current executive members:
                 </p>

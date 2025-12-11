@@ -1,9 +1,7 @@
 import { useParams } from "react-router-dom";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useState } from "react";
-import img1 from "@/img/family-enjoying-their-quality-winter-time.jpg";
-import img2 from "@/img/23682.jpg";
-import img3 from "@/img/8990534.png";
+
 import { useDatabaseContext } from "@/context/databaseContext";
 import Lightbox from "@/components/ui/Lightbox";
 

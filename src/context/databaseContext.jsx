@@ -74,7 +74,10 @@ const clearCache = (type) => {
            }));
 
            setActivities(fetchedActivities);
-           setCachedData('activities', fetchedActivities);
+           if (fetchedActivities.length > 0){
+                  setCachedData('activities', fetchedActivities);
+           }
+     
            console.log("Activities fetched from server:", fetchedActivities);
          } catch (error) {
            console.error("Error fetching activities:", error);

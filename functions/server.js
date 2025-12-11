@@ -22,16 +22,16 @@ require("./config/firebase");
 
 //Router
 const formsRouter = require("./routes/forms");
-const supabaseRouter = require("./routes/supabase");
-const adminSupabaseRouter = require("./routes/adminSupabase");
+const memberRouter = require("./routes/member");
+const adminRouter = require("./routes/admin");
 
 //middleware
 const verifyFirebaseToken = require("./middleware/verifyFirebase");
 const requireAdmin = require("./middleware/requireAdmin");
 //Routes
 app.use("/forms", sensitiveLimiter, formsRouter);
-app.use("/supabase", verifyFirebaseToken, supabaseRouter);
-app.use("/adminSupabase", verifyFirebaseToken, requireAdmin,  adminSupabaseRouter);
+app.use("/member", verifyFirebaseToken, memberRouter);
+app.use("/admin", verifyFirebaseToken, requireAdmin,  adminRouter);
 
 // Health check endpoint
 app.get("/", (req, res) => {

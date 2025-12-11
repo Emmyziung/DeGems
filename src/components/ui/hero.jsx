@@ -6,7 +6,7 @@ const Hero = () => {
   const {currentUser} =useAuthContext()
   return (
     <section
-      className="relative  bg-cover bg-center min-h-[90vh]"
+      className="relative  bg-cover bg-center max-sm:min-h-[50vh] min-h-[90vh]"
       style={{ backgroundImage: `url(${backgroundImg})`}}
     >
       <div

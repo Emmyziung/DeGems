@@ -16,10 +16,7 @@ import uploadSingleImageToCloudinary from "@/utilities/singleImageUpload";
   const {db, doc, setDoc} = useDatabaseContext()
     const [profileData, setProfileData] =  useState([])
   const navigate = useNavigate();
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-  
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
       const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user'))|| null);
         const [isAdmin, setIsAdmin] = useState(JSON.parse(localStorage.getItem('isAdmin'))||null);
         const [signinLoad, setSigninLoad] = useState(false)
@@ -106,26 +103,13 @@ useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, async (user) => {
         if (user) {
             const tokenResult = await user.getIdTokenResult(true);
-            console.log(tokenResult.claims)
+           // console.log(tokenResult.claims)
              setCurrentUser(user)
           tokenResult.claims.role === 'admin' ? setIsAdmin(true) : setIsAdmin(false );
               const token = await user.getIdToken(); // Firebase ID token
-              console.log('token', token)
-    // Use a Supabase client that passes token as Bearer header
-    const supabaseWithToken = createClient(supabaseUrl, supabaseAnonKey, {
-      global: {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    });
-     fetchUserData(user.uid)
-     // Example query with RLS enforced
-    const { data, error } = await supabaseWithToken
-      .from('members')
-      .select('*');
-
-    console.log(data, error);
-       
-   
+           //   console.log('token', token)
+ 
+            fetchUserData(user.uid)
         }
         else {
           setCurrentUser(null)
@@ -142,6 +126,7 @@ useEffect(() => {
         if (userSnap.exists()) {
           console.log("Document data:", userSnap.data());
           setProfileData(userSnap.data());
+          console.log(profileData)
         } else {
           setProfileData([])
         }

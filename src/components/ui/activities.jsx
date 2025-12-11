@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "./button";
 import { MapPin, Calendar } from "lucide-react";
-import img1 from "@/img/family-enjoying-their-quality-winter-time.jpg";
+
 import { useDatabaseContext } from "@/context/databaseContext";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";

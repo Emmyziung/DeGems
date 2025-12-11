@@ -2,13 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import TabsNavigation from "@/components/ui/TabsNavigation";
 import ActivityCard from "@/components/ui/ActivityCard";
 import Lightbox from "@/components/ui/Lightbox";
-import img1 from "@/img/family-enjoying-their-quality-winter-time.jpg";
-import img2 from "@/img/23682.jpg";
-import img3 from "@/img/8990534.png";
-import img4 from "@/img/close-up-portrait-smiling-african-man-looking.jpg";
-import img5 from "@/img/close-up-smiley-man-with-glasses.jpg";
-import img6 from "@/img/portrait-smiley-black-man.jpg";
-import img7 from "@/img/three-african-american-happy-succesfull-mans-suit-rich-black-business-mans.jpg";
+
 import { useGlobalContext } from "@/context/pageContext";
 import { useDatabaseContext } from "@/context/databaseContext";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -127,7 +121,7 @@ const [activeTabIndex, setActiveTabIndex] = useState(0);
         <button
           onClick={() => fetchPhotos(false)}
           disabled={loading}
-          className="px-4 py-2 bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition"
+          className="px-4 py-2 !bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition"
         >
           {loading ? "Loading..." : "See More"}
         </button>
