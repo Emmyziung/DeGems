@@ -16,14 +16,14 @@ const Homepage = () => {
       
       <Hero />
       <Executives />
-    {/*   <div className="grid gap-1 grid-cols-1 md:grid-cols-2 ">
+      <div className="grid gap-1 grid-cols-1 md:grid-cols-2 relative pt-4 mb-10 overflow-hidden">
         <div >
           <AboutSnippet />
       <ConnectWithUs />
         </div>
         <MemberDirectorySnippet/>
       </div>
-       */}
+      
       
       <Activities />
       

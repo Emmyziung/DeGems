@@ -9,7 +9,7 @@ const Executives = () => {
   return (
     <section className="py-10 md:py-12">
       <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-center text-2xl md:text-3xl font-semibold tracking-tight text-primary">
+        <h2 className=" text-2xl md:text-3xl font-semibold tracking-tight text-primary">
           Elected Executives
         </h2>
 
