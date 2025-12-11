@@ -17,7 +17,7 @@ const ProfileHeader = ({ profileData }) => {
   return (
     <div className="flex flex-col sm:flex-row items-center sm:items-center w-full justify-between p-6 bg-gradient-to-br from-primary2 to-primary3 rounded-lg shadow-sm ">
       <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-      <div className="w-25 h-25 rounded-full bg-primary-foreground/90 text-primary flex items-center justify-center text-xl border-2 border-accent font-bold">
+      <div className="w-30 h-30 rounded-full bg-primary-foreground/90 text-primary flex items-center justify-center text-xl border-2 border-accent font-bold">
         {imageUrl ? (
           <img src={imageUrl} alt={firstName} className="w-full h-full rounded-full object-cover" />
         ) : (

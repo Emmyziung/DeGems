@@ -2,6 +2,12 @@
 import { useState, useEffect } from "react";
 import { createContext, useContext,  } from "react";
 import { useLocation } from "react-router-dom";
+import mayorImg from "@/img/mayor.jpg"
+import viceImg from "@/img/vice.jpg"
+import scribeImg from "@/img/scribe.jpg"
+import finSecImg from "@/img/finSec.jpeg"
+import whipImg from "@/img/whip.png"
+
 
 export const PageContext = createContext();
 
@@ -10,6 +16,7 @@ const PageProvider = ({ children }) => {
   const [hideFooter, setHideFooter] = useState(false);
   const [errorDisplay, setErrorDisplay] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
+
 
   useEffect(() => {
     
@@ -28,11 +35,11 @@ const PageProvider = ({ children }) => {
   ];
   
       const people = [
-    { name: "Gem Olusesan Oso", role: "Mayor", initials: "OO" },
-    { name: "Gem Olufemi Oyeti", role: "Vice Mayor", initials: "OO" },
-    { name: " Gem Abidemi Mate ", role: "Scribe", initials: "AM" },
-    { name: "Gem Damilare Talib", role: "Financial Secretary", initials: "DT" },
-    { name: "Gem Bisi Odubona", role: "Chief Whip", initials: "BO" },
+    { name: "Gem Olusesan Oso", role: "Mayor", initials: "OO", image: mayorImg },
+    { name: "Gem Olufemi Oyeti", role: "Vice Mayor", initials: "OO", image: viceImg },
+    { name: " Gem Abidemi Mate ", role: "Scribe", initials: "AM", image: scribeImg },
+    { name: "Gem Damilare Talib", role: "Financial Secretary", initials: "DT", image: finSecImg },
+    { name: "Gem Bisi Odubona", role: "Chief Whip", initials: "BO", image: whipImg },
     { name: " Gem Adeboye Elepe", role: "Social Director", initials: "AE" },
   ];
   const [showMembers, setShowMembers] = useState(false);  

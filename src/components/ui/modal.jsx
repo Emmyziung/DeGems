@@ -17,7 +17,7 @@ import { IoClose } from "react-icons/io5";
               key={p.name}
               className="rounded-xl  bg-card shadow-card  p-4 flex flex-col items-center text-center"
             >
-              <div className="h-30 w-30 border-4 border-orange-400/80 shadow-2xs rounded-full bg-primary/10 text-primary grid place-items-center text-xl font-semibold">
+              <div className="h-30 w-30 border-4 border-orange-400/80 shadow-2xs rounded-full bg-primary/10 text-primary  flex items-center justify-center text-xl font-semibold">
                 {p.image ? (
                   <img
                     src={p.image}

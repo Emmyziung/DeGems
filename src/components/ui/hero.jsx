@@ -6,9 +6,10 @@ const Hero = () => {
   const {currentUser} =useAuthContext()
   return (
     <section
-      className="relative  bg-cover bg-center max-sm:min-h-[50vh] min-h-[90vh]"
-      style={{ backgroundImage: `url(${backgroundImg})`}}
+      className="relative  sm:min-h-[90vh]  min-h-[80vh]"
+      
     >
+      <div className="absolute bottom-0 left-0 w-full bg-cover bg-center min-h-[80vh] sm:min-h-[90vh] max-sm:min-h-[50vh] max-sm:max-h-[50vh]" style={{backgroundImage : `url(${backgroundImg})`}}/>
       <div
         className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-transparent"
         aria-hidden="true"
