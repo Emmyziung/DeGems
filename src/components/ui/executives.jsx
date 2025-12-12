@@ -13,7 +13,7 @@ const Executives = () => {
           Elected Executives
         </h2>
 
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-sm:gap-2">
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-sm:gap-3">
           {fourPeople.map((p) => (
             <div
               key={p.name}
@@ -29,7 +29,7 @@ const Executives = () => {
                   p.initials
                 )}
               </div>
-              <p className="mt-4 font-[650] text-nowrap  text-foreground">{p.name}</p>
+              <p className="mt-4 font-[650] text-nowrap max-sm:text-base  text-foreground">{p.name}</p>
               <p className="text-sm text-nowrap  text-muted-foreground">{p.role}</p>
             </div>
           ))}

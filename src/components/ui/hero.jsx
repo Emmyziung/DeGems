@@ -23,7 +23,7 @@ const Hero = () => {
         <div></div>
         <div className="mx-auto font-heading drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
         <h1 className="text-3xl sm:text-4xl lg:text-6xl font-semibold text-white mb-4">
-          Welcome to <span className="text-accent !drop-shadow-none">De GEMS</span> Exclusive Club
+          Welcome to <span className="text-accent whitespace-nowrap !drop-shadow-none">De GEMS</span> Exclusive Club
         </h1>
         <p className="text-white/90 text-base mt-2 sm:text-lg lg:text-xl">of Iperu Remo</p>
         </div>

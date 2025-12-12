@@ -41,7 +41,7 @@ const MemberDirectorySnippet = () => {
   
   return (
     <div className="w-full flex flex-col items-center overflow-hidden px-6">
-
+     
     {/* CARD WRAPPER */}
 <div
   {...swipeHandlers}

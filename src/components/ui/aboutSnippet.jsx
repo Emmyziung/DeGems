@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 const AboutSnippet = () => {
   return (
-    <section className=" pb-10 md:pb-12" >
+    <section className=" pb-6 md:pb-7" >
 
       <div className=" md:ml-8 mx-auto max-sm:px-6 ">
         <div className="rounded-xl bg-card   transition-shadow flex flex-col r  pb-4 sm:px-4">
+          
         <h2 className="max-md:text-center text-2xl md:text-3xl  font-semibold tracking-tight text-primary mb-3">
           About Us
         </h2>
+        <h2 className='text-accent mb-3'> Our History</h2>
           <p className="leading-relaxed max-md:text-sm ">
                 The journey of De Gems Exclusive Club of Iperu-Remo began with a simple yet powerful idea: to create a social platform that would reconnect old friends, foster meaningful relationships, and promote personal and communal growth. This idea was initially conceived and reviewed by two dedicated and like-minded individuals, and soon gained momentum as more like-minded individuals bought into the vision. <span><Link to="/About">
     
