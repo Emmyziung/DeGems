@@ -52,6 +52,43 @@ const clearCache = (type) => {
     console.error(`Error clearing cache for ${type}:`, error);
   }
 };
+
+      const [publicMembers, setPublicMembers] = useState([]);
+      useEffect(() => {
+       const fetchPublicMembers = async () => {
+         // Check cache first
+         const cachedPublicMembers = getCachedData('publicMembers');
+         if (cachedPublicMembers) {
+           setPublicMembers(cachedPublicMembers);
+           console.log("PublicMembers loaded from cache:", cachedPublicMembers);
+           return;
+         }
+
+         try {
+           const q = query(collection(db, "users-subset"));
+           const querySnapshot = await getDocs(q);
+
+           const fetchedPublicMembers = querySnapshot.docs.map((doc) => ({
+             id: doc.id,
+             ...doc.data(),
+           }));
+
+           setPublicMembers(fetchedPublicMembers);
+           if (fetchedPublicMembers.length > 0){
+                  setCachedData('publicMembers', fetchedPublicMembers);
+           }
+     
+           console.log("PublicMembers fetched from server:", fetchedPublicMembers);
+         } catch (error) {
+           console.error("Error fetching PublicMembers:", error);
+         }
+       };
+
+       fetchPublicMembers();
+     }, []);
+
+
+
        const [activities, setActivities] = useState([]);
 
      useEffect(() => {
@@ -196,7 +233,7 @@ const fetchPhotos = useCallback(async (reset = false) => {
     return (
         <DatabaseContext.Provider value={{
           db, setDoc, doc, collection, query, addDoc, serverTimestamp, writeBatch, getDocs, where, orderBy, limit,getCachedData, setCachedData, clearCache, updateEdit,
-          activities, setActivities, 
+          activities, setActivities, publicMembers, clearCache,
           
           photos, setPhotos, hasMore, fetchPhotos, loading,
           deleteDoc, arrayRemove,

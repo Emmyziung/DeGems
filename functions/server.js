@@ -24,6 +24,7 @@ require("./config/firebase");
 const formsRouter = require("./routes/forms");
 const memberRouter = require("./routes/member");
 const adminRouter = require("./routes/admin");
+const userSubsetRouter = require("./routes/fireStoreTools");
 
 //middleware
 const verifyFirebaseToken = require("./middleware/verifyFirebase");
@@ -32,6 +33,7 @@ const requireAdmin = require("./middleware/requireAdmin");
 app.use("/forms", sensitiveLimiter, formsRouter);
 app.use("/member", verifyFirebaseToken, memberRouter);
 app.use("/admin", verifyFirebaseToken, requireAdmin,  adminRouter);
+app.use("/firestore", userSubsetRouter);
 
 // Health check endpoint
 app.get("/", (req, res) => {

@@ -5,7 +5,7 @@ const AboutSnippet = () => {
 
       <div className=" md:ml-8 mx-auto max-sm:px-6 ">
         <div className="rounded-xl bg-card   transition-shadow flex flex-col r  pb-4 sm:px-4">
-        <h2 className=" text-2xl md:text-3xl  font-semibold tracking-tight text-primary mb-3">
+        <h2 className="max-md:text-center text-2xl md:text-3xl  font-semibold tracking-tight text-primary mb-3">
           About Us
         </h2>
           <p className="leading-relaxed max-md:text-sm ">

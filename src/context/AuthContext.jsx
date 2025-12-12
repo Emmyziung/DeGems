@@ -6,6 +6,7 @@ import Error from "@/components/ui/error";
   import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { useDatabaseContext } from "./databaseContext";
 import { useGlobalContext } from "./pageContext";
+
 import {  signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword } from "firebase/auth"
 export const AuthContext = createContext();
 import uploadImagesToCloudinary from "@/utilities/cloudinaryUpload";
@@ -13,7 +14,8 @@ import uploadSingleImageToCloudinary from "@/utilities/singleImageUpload";
 
  const AuthContextProvider = ({children}) => {
   const {setErrorMessage, setErrorDisplay} = useGlobalContext()
-  const {db, doc, setDoc} = useDatabaseContext()
+  const {db, doc, setDoc, clearCache} = useDatabaseContext()
+
     const [profileData, setProfileData] =  useState([])
   const navigate = useNavigate();
 
@@ -115,6 +117,7 @@ useEffect(() => {
           setCurrentUser(null)
           setIsAdmin(false);
             setProfileData([])
+            clearCache('members')
           
         }
       });

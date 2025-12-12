@@ -1,0 +1,50 @@
+const admin = require("firebase-admin");
+const express = require("express");
+const router = express.Router();
+
+const db = admin.firestore();
+
+// One-time subset copy
+router.get("/users-subset", async (req, res) => {
+  try {
+    const fullCol = "users";     // CHANGE THIS
+    const subsetCol = "users-subset"; // CHANGE THIS
+    const fieldsToKeep = ["firstName","lastName","desc","position","socialLinks", "imageUrl"];
+    const snapshot = await db.collection(fullCol).get();
+
+    if (snapshot.empty) {
+      return res.status(404).json({ message: "Full collection is empty" });
+    }
+
+    let successCount = 0;
+
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
+
+      // Pick ONLY the fields you want
+      const subsetData = {}
+       
+      fieldsToKeep.forEach((key) => {
+        if (data[key] !== undefined) {
+          subsetData[key] = data[key];
+        }
+      });
+     
+
+      await db.collection(subsetCol).doc(doc.id).set(subsetData);
+      successCount++;
+    }
+
+    return res.json({
+      message: "Subset collection created successfully",
+      totalDocuments: snapshot.size,
+      copied: successCount
+    });
+
+  } catch (error) {
+    console.error("Error copying subset:", error);
+    return res.status(500).json({ message: "Error copying subset", error });
+  }
+});
+
+module.exports = router;

@@ -147,7 +147,7 @@ const deleteApplication = async (id) => {
           console.log('members in admin dashboard:', members)
   
     return (
-        <AdminContext.Provider value={{members, applications, invalidateMemberCache, deleteApplication
+        <AdminContext.Provider value={{members, applications, invalidateMemberCache, clearCache, deleteApplication
         }}>
             {children}
         </AdminContext.Provider>
